@@ -28,6 +28,9 @@ color: white;
 color: #c60f13;
 }
 </style>
+<link rel="stylesheet"
+    href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap-3.3.1-dist/css/bootstrap.css"
+    type="text/css" media="screen, projection">
 </head>
 
 <body>
@@ -37,10 +40,41 @@ color: #c60f13;
 <form:form
 	action="${pageContext.request.contextPath}/todo/create"
 	method="post" modelAttribute="todoForm">
-	
-	<form:input path="todoTitle" />
 	<form:errors path="todoTitle" cssClass="text-error"/>
-	<input type="submit" value="Create Todo" />
+	<div class="container">
+		<table class="table table-striped table-bordered">
+			<!-- Task Name -->
+			<tr><td>
+					Task:
+				</td><td>
+					<form:input path="todoTitle" />
+				</td></tr>
+			<!-- person in charge -->
+			<tr><td>
+					First Name:
+				</td><td>
+					<form:input path="firstName" />
+				</td></tr>
+			<tr><td>
+					Last Name:
+				</td><td>
+					<form:input path="lastName" />
+				</td></tr>
+			<!-- priority -->
+			<tr><td>		
+					Priority:
+				</td><td>
+					<form:input path="priority" />
+				</td></tr>
+			<!-- remarks -->
+			<tr><td>
+					Remarks:
+				</td><td>
+					<form:textarea path="cmt" />
+				</td></tr>
+		</table>
+	</div><br/>
+	<input type="submit" value="Create Todo" class="btn btn-success"/>
 </form:form>
 </div>
 <hr />
