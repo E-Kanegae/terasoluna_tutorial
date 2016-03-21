@@ -30,11 +30,13 @@ public class TodoForm implements Serializable {
 	@Size(min = 1, max = 30, groups = { TodoCreate.class })
 	private String todoTitle;
 	
+	private String todoCategory;
+	
 	private String firstName;
 	
 	private String lastName;
 	
-	private int priority;
+	private String todoPriority;
 	
 	private String cmt;
 

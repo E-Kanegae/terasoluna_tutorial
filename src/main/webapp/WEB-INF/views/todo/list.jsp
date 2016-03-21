@@ -43,6 +43,15 @@ color: #c60f13;
 	<form:errors path="todoTitle" cssClass="text-error"/>
 	<div class="container">
 		<table class="table table-striped table-bordered">
+			<!-- Category -->
+			<tr><td>
+					Category: 
+				</td><td>
+					<form:select path="todoCategory">
+					    <form:option value="" label="--Select--" />
+					    <form:options items="${CL_CATEGORY}" />
+					</form:select>
+				</td>
 			<!-- Task Name -->
 			<tr><td>
 					Task:
@@ -64,7 +73,10 @@ color: #c60f13;
 			<tr><td>		
 					Priority:
 				</td><td>
-					<form:input path="priority" />
+					<form:select path="todoPriority">
+					    <form:option value="" label="--Select--" />
+					    <form:options items="${CL_PRIORITY}" />
+					</form:select>
 				</td></tr>
 			<!-- remarks -->
 			<tr><td>
