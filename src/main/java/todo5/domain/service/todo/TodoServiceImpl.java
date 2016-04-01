@@ -66,6 +66,7 @@ public class TodoServiceImpl implements TodoService {
 		todo.setTodoId(todoId);
 		todo.setCreatedAt(createdAt);
 		todo.setFinished(false);
+		todo.setFullName(String.join(" ", todo.getFirstName(), todo.getLastName()));
 		todoRepository.create(todo);
 		return todo;
 	}

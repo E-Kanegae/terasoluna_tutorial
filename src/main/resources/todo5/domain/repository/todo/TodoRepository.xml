@@ -6,6 +6,13 @@
 		<result property="todoTitle" column="todo_title" />
 		<result property="finished" column="finished" />
 		<result property="createdAt" column="created_at" />
+		<result property="todoCategory" column="category_id" />
+		<result property="todoCategoryName" column="category_nm" />
+		<result property="firstName" column="firstname" />
+		<result property="lastName" column="lastname" />
+		<result property="fullName" column="fullname" />
+		<result property="todoPriority" column="priority" />
+		<result property="cmt" column="remarks" />
 	</resultMap>
 
 	<select id="findOne" parameterType="String" resultMap="todoResultMap">
@@ -40,14 +47,26 @@
 			todo_id,
 			todo_title,
 			finished,
-			created_at
+			created_at,
+			category_id,
+			firstname,
+			lastname,
+			fullname,
+			priority,
+			remarks
 			)
 		VALUES
 			(
 			#{todoId},
 			#{todoTitle},
 			#{finished},
-			#{createdAt}
+			#{createdAt},
+			#{todoCategory},
+			#{firstName},
+			#{lastName},
+			#{fullName},
+			#{todoPriority},
+			#{cmt}
 			)
 	]]>
 	</insert>
