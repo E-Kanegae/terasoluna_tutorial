@@ -86,39 +86,90 @@ color: #c60f13;
 				</td></tr>
 		</table>
 	</div><br/>
-	<input type="submit" value="Create Todo" class="btn btn-success"/>
+	<div style="text-align:right">
+		<input type="submit" value="Create Todo" class="btn btn-success" />
+	</div>
 </form:form>
 </div>
 <hr />
 <div id="todoList">
-	<ul>
-		<c:forEach items="${todos}" var="todo">
-			<li><c:choose>
-					<c:when test="${todo.finished}">
-						<span class="strike">
-							${f:h(todo.todoTitle)}
-						</span>
-					</c:when>
-					<c:otherwise>
-						${f:h(todo.todoTitle)}
-						<form:form
-							action="${pageContext.request.contextPath}/todo/finish"
-							method="post"
-							modelAttribute="todoForm"
-							cssStyle="display: inline-block;">
+<!-- 0件の場合、ヘッダ行から表示しない -->
+<c:choose>
+<c:when test="${todos != null && todos.totalPages != 0}">
+	<div class="container" style="">
+		<table class="table table-condensed table-striped tables-hover-rows">
+			<thead>
+				<tr>
+					<td>Todo Title</td>
+					<td>Category</td>
+					<td>Priority</td>
+					<td>Onwer</td>
+					<td>Finished</td>
+					<td>Deleted</td>
+					<td>Remarks</td>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${todos.content}" var="todo">
+				<tr>
+					<td>
+						<c:choose>
+							<c:when test="${todo.finished}">
+								<span class="strike">
+									${f:h(todo.todoTitle)}
+								</span>
+							</c:when>
+							<c:otherwise>
+								${f:h(todo.todoTitle)}
+							</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						${f:h(todo.todoCategoryName)}
+					</td>
+					<td>
+						${f:h(todo.todoPriority)}
+					</td>
+					<td>
+						${f:h(todo.fullName)}
+					</td>
+					<td>
+						<c:choose>
+							<c:when test="${todo.finished}">
+							</c:when>
+							<c:otherwise>
+								<form:form
+									action="${pageContext.request.contextPath}/todo/finish"
+									method="post"
+									modelAttribute="todoForm"
+									cssStyle="display: inline-block;">
+									<form:hidden path="todoId" value="${f:h(todo.todoId)}" />
+									<input type="submit" name="finish" value="Finish" />
+								</form:form>
+							</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<form:form action="${pageContext.request.contextPath}/todo/delete"
+							method="post" modelAttribute="todoForm" cssStyle="display: inline-block;">
 							<form:hidden path="todoId" value="${f:h(todo.todoId)}" />
-							<input type="submit" name="finish" value="Finish" />
+							<input type="submit" value="Delete" />
 						</form:form>
-					</c:otherwise>
-				</c:choose>
-					<form:form action="${pageContext.request.contextPath}/todo/delete"
-						method="post" modelAttribute="todoForm" cssStyle="display: inline-block;">
-						<form:hidden path="todoId" value="${f:h(todo.todoId)}" />
-						<input type="submit" value="Delete" />
-					</form:form>
-			</li>
-		</c:forEach>
-	</ul>
+					</td>
+					<td>
+						${f:h(todo.cmt)}
+					</td>
+				<tr>
+				</c:forEach>	
+			</tbody>
+		</table>
+	</div>
+	<!-- ページネーション　リンク -->
+	<div style="text-align:center">
+		<t:pagination page="${todos}" outerElementClass="pagination" />
+	</div>
+</c:when>
+</c:choose>
 </div>
 </body>
 </html>

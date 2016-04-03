@@ -1,11 +1,16 @@
 package todo5.domain.service.todo;
 
-import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
 
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.BusinessException;
@@ -19,8 +24,6 @@ import todo5.domain.repository.todo.TodoRepository;
 @Service
 @Transactional
 public class TodoServiceImpl implements TodoService {
-
-	private static final long MAX_UNFINISHED_COUNT = 5;
 	
 	@Inject
 	TodoRepository todoRepository;
@@ -30,36 +33,39 @@ public class TodoServiceImpl implements TodoService {
 		Todo todo = todoRepository.findOne(todoId);
 		if (todo == null) {
 		
-		ResultMessages messages = ResultMessages.error();
-		messages.add(ResultMessage
-		.fromText("[E404] The requested Todo is not found. (id="
-		+ todoId + ")"));
-		
-		throw new ResourceNotFoundException(messages);
+			ResultMessages messages = ResultMessages.error();
+			messages.add(ResultMessage
+			.fromText("[E404] The requested Todo is not found. (id="
+			+ todoId + ")"));
+			
+			throw new ResourceNotFoundException(messages);
 		}
 		return todo;
 		}
 	
+    /*
+     * Todoリスト検索処理
+     */	
 	@Override
 	@Transactional(readOnly = true)
-	public Collection<Todo> findAll() {
-		// TODO Auto-generated method stub
-		return todoRepository.findAll();
-	}
+	public Page<Todo> findAll(Pageable pageable) {
+		
+		long total = todoRepository.countTodo();
+		
+        List<Todo> todos;
+        
+        if (0 < total) {
+            RowBounds rowBounds = new RowBounds(pageable.getOffset(),
+                pageable.getPageSize());
+            todos = todoRepository.findAll(rowBounds);
+        } else {
+            todos = Collections.emptyList();
+        }
+        return new PageImpl<>(todos, pageable, total);
+    }
 
 	@Override
 	public Todo create(Todo todo) {
-		// TODO Auto-generated method stub
-		long unfinishedCount = todoRepository.countByFinished(false);
-		
-		if (unfinishedCount >= MAX_UNFINISHED_COUNT) {
-			ResultMessages messages = ResultMessages.error();
-			messages.add(ResultMessage
-					.fromText("[E001] The count of un-finished Todo must not be over "
-							+ MAX_UNFINISHED_COUNT + "."));
-		
-			throw new BusinessException(messages);
-		}
 		
 		String todoId = UUID.randomUUID().toString();
 		Date createdAt = new Date();

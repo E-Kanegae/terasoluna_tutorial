@@ -29,17 +29,39 @@
 	]]>
 	</select>
 
+	<select id="countTodo" resultType="Long">
+	<![CDATA[
+		SELECT 
+			COUNT(*) 
+		FROM
+			todo t1
+				INNER JOIN 
+					category t2
+				ON t1.category_id = t2.category_id 
+					
+	]]>
+	</select>
+
 	<select id="findAll" resultMap="todoResultMap">
 	<![CDATA[
 		SELECT
 			todo_id,
 			todo_title,
 			finished,
-			created_at
+			created_at,
+			priority,
+			fullname,
+			remarks,
+			category_nm
 		FROM
-			todo
+			todo t1
+				INNER JOIN 
+					category t2
+				ON t1.category_id = t2.category_id 
+					
 	]]>
 	</select>
+
 	<insert id="create" parameterType="Todo">
 	<![CDATA[
 		INSERT INTO todo
