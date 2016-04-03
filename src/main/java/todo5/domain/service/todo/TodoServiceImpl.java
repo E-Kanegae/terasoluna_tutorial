@@ -28,6 +28,9 @@ public class TodoServiceImpl implements TodoService {
 	@Inject
 	TodoRepository todoRepository;
 	
+    /*
+     * Todoタスク詳細表示処理
+     */
 	@Transactional(readOnly = true)
 	public Todo findOne(String todoId) {
 		Todo todo = todoRepository.findOne(todoId);
@@ -37,7 +40,7 @@ public class TodoServiceImpl implements TodoService {
 			messages.add(ResultMessage
 			.fromText("[E404] The requested Todo is not found. (id="
 			+ todoId + ")"));
-			
+		
 			throw new ResourceNotFoundException(messages);
 		}
 		return todo;

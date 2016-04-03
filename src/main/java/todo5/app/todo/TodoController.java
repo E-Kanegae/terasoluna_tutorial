@@ -16,18 +16,21 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.message.ResultMessage;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
 import todo5.app.todo.TodoForm.TodoDelete;
+import todo5.app.todo.TodoForm.TodoDetail;
 import todo5.app.todo.TodoForm.TodoFinish;
 import todo5.domain.model.Todo;
 import todo5.domain.service.todo.TodoService;
 
 @Controller
 @RequestMapping("todo")
+@SessionAttributes(value={"page","size"})
 public class TodoController {
 	
 	@Inject
@@ -40,6 +43,19 @@ public class TodoController {
 	public TodoForm setUpForm() {
 		TodoForm form = new TodoForm();
 		return form;
+		}
+	
+	//paginationのセッションへの追加をする途中。
+	@ModelAttribute
+	public int setPage() {
+		int page = 0;
+		return page;
+		}
+	
+	@ModelAttribute
+	public int setSize() {
+		int size = 0;
+		return size;
 		}
 	
     /*
@@ -61,13 +77,26 @@ public class TodoController {
 		model.addAttribute("todos", todos); 
 		return "todo/list"; 
 		}
+	
+    /*
+     * タスク詳細画面表示処理
+     */
+	@RequestMapping(value = "detail")
+	public String detail(@Valid TodoForm todoForm,Pageable pageable,Model model) {
+		
+		Todo todo = todoService.findOne(todoForm.getTodoId());
+		model.addAttribute(todo);
+		
+		return "todo/detail"; 
+		}
+	
 
 
     /*
      * Todoタスク作成処理
      */
 	@RequestMapping(value = "create", method = RequestMethod.POST)
-	public String create(@Valid TodoForm todoForm, BindingResult bindingResult,
+	public String create(@Validated({ Default.class, TodoDetail.class }) TodoForm todoForm, BindingResult bindingResult,
 			Model model, RedirectAttributes attributes) {
 		
 		if (bindingResult.hasErrors()) {

@@ -3,6 +3,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Todo List</title>
+<script type="text/javascript">
+ function toDetail(formName, url, method)
+ {
+   var f = document.forms[formName];
+   f.method = method;
+   f.action = url; 
+   f.submit();
+   return true;
+ }
+ </script>
 <style type="text/css">
 .strike {
 text-decoration: line-through;
@@ -120,7 +130,13 @@ color: #c60f13;
 								</span>
 							</c:when>
 							<c:otherwise>
-								${f:h(todo.todoTitle)}
+								<form:form name="detailForm" 
+									action="${pageContext.request.contextPath}/todo/detail"
+									method="post"
+									modelAttribute="todoForm">
+									<input type="hidden" name="todoId" value="${f:h(todo.todoId)}" />
+									<a href="#" onClick="return toDetail('detailForm','${pageContext.request.contextPath}/todo/detail','GET')">${f:h(todo.todoTitle)}</a>
+								</form:form>
 							</c:otherwise>
 						</c:choose>
 					</td>
@@ -155,9 +171,6 @@ color: #c60f13;
 							<form:hidden path="todoId" value="${f:h(todo.todoId)}" />
 							<input type="submit" value="Delete" />
 						</form:form>
-					</td>
-					<td>
-						${f:h(todo.cmt)}
 					</td>
 				<tr>
 				</c:forEach>	

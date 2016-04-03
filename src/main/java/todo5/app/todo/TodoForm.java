@@ -21,9 +21,12 @@ public class TodoForm implements Serializable {
 	public static interface TodoDelete {
 	}
 	
+	public static interface TodoDetail {
+	}
+	
 	private static final long serialVersionUID = 1L;
 	
-	@NotNull(groups = { TodoFinish.class, TodoDelete.class })
+	@NotNull(groups = { TodoFinish.class, TodoDelete.class, TodoDetail.class })
 	private String todoId;
 	
 	@NotNull(groups = { TodoCreate.class })
