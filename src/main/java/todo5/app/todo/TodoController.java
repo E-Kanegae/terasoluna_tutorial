@@ -1,7 +1,6 @@
 package todo5.app.todo;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
 import javax.validation.groups.Default;
 
 import org.dozer.Mapper;
@@ -22,6 +21,7 @@ import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.message.ResultMessage;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
+import todo5.app.todo.TodoForm.TodoCreate;
 import todo5.app.todo.TodoForm.TodoDelete;
 import todo5.app.todo.TodoForm.TodoDetail;
 import todo5.app.todo.TodoForm.TodoFinish;
@@ -45,18 +45,18 @@ public class TodoController {
 		return form;
 		}
 	
-	//paginationのセッションへの追加をする途中。
-	@ModelAttribute
-	public int setPage() {
-		int page = 0;
-		return page;
-		}
-	
-	@ModelAttribute
-	public int setSize() {
-		int size = 0;
-		return size;
-		}
+//	//paginationのセッションへの追加をする途中。
+//	@ModelAttribute
+//	public int setPage() {
+//		int page = 0;
+//		return page;
+//		}
+//	
+//	@ModelAttribute
+//	public int setSize() {
+//		int size = 0;
+//		return size;
+//		}
 	
     /*
      * Todoリスト検索処理
@@ -82,7 +82,7 @@ public class TodoController {
      * タスク詳細画面表示処理
      */
 	@RequestMapping(value = "detail")
-	public String detail(@Valid TodoForm todoForm,Pageable pageable,Model model) {
+	public String detail(@Validated({ Default.class, TodoDetail.class }) TodoForm todoForm,Pageable pageable,Model model) {
 		
 		Todo todo = todoService.findOne(todoForm.getTodoId());
 		model.addAttribute(todo);
@@ -96,7 +96,7 @@ public class TodoController {
      * Todoタスク作成処理
      */
 	@RequestMapping(value = "create", method = RequestMethod.POST)
-	public String create(@Validated({ Default.class, TodoDetail.class }) TodoForm todoForm, BindingResult bindingResult,
+	public String create(@Validated({ Default.class, TodoCreate.class }) TodoForm todoForm, BindingResult bindingResult,
 			Model model, RedirectAttributes attributes) {
 		
 		if (bindingResult.hasErrors()) {
