@@ -38,6 +38,7 @@ public class TodoController {
 	@Inject
 	Mapper beanMapper;
 	
+	//ページネーションのpage, size用セッションオブジェクト
 	@Inject
 	SessionPageObj sessionPageObj;
 	
@@ -71,7 +72,7 @@ public class TodoController {
      * タスク詳細画面表示処理
      */
 	@RequestMapping(value = "detail")
-	public String detail(@Valid TodoForm todoForm,Pageable pageable,Model model) {
+	public String detail(@Valid TodoForm todoForm, BindingResult bindingResult,Pageable pageable,Model model) {
 		
 		Todo todo = todoService.findOne(todoForm.getTodoId());
 		model.addAttribute(todo);
@@ -83,7 +84,29 @@ public class TodoController {
 		return "todo/detail"; 
 		}
 	
-
+    /*
+     * タスク情報編集画面表示処理
+     */
+	@RequestMapping(value = "editPage")
+	public String editPage(TodoForm todoForm, Model model) {
+		
+		Todo todo = todoService.findOne(todoForm.getTodoId());
+		model.addAttribute(todo);
+		
+		return "todo/edit"; 
+		}
+	
+    /*
+     * タスク情報編集処理
+     */
+	@RequestMapping(value = "edit")
+	public String edit(TodoForm todoForm, Model model) {
+		
+		Todo todo = todoService.findOne(todoForm.getTodoId());
+		model.addAttribute(todo);
+		
+		return "todo/edit"; 
+	}
 
     /*
      * Todoタスク作成処理

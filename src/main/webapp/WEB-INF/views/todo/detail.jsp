@@ -63,8 +63,14 @@
 				<input type="submit" value="Back" class="btn btn-success" />
 			</form:form>
 		</div>
-		<div style="float:left">
-			
+		<div style="float:right">
+			<form:form  name="editForm" 
+				action="${pageContext.request.contextPath}/todo/editPage"
+				method="post" 
+				modelAttribute="todoForm">
+				<form:hidden path="todoId" value="${f:h(todo.todoId)}" />
+				<input type="submit" value="Edit" class="btn btn-success" />
+			</form:form>
 		</div>
 </body>
 </html>

@@ -3,6 +3,7 @@
 <mapper namespace="todo5.domain.repository.todo.TodoRepository">
 	<resultMap id="todoResultMap" type="Todo">
 		<id property="todoId" column="todo_id" />
+		<result property="todoId" column="todo_id" />
 		<result property="todoTitle" column="todo_title" />
 		<result property="finished" column="finished" />
 		<result property="createdAt" column="created_at" />
@@ -17,13 +18,15 @@
 
 	<select id="findOne" parameterType="String" resultMap="todoResultMap">
 	<![CDATA[
-		SELECT
+		SELECT 
 			todo_id,
 			todo_title,
 			finished,
 			created_at,
 			category_nm,
 			fullname,
+			firstname,
+			lastname,
 			priority,
 			remarks
 		FROM
