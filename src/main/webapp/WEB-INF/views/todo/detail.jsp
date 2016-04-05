@@ -50,5 +50,21 @@
 					</td></tr>
 			</table>
 		</div>
+		<!-- SpringFrameworkのセッションスコープオブジェクトの取得 -->
+		<spring:eval var="pageNumber" expression="@sessionPageObj.page" /> 
+		<spring:eval var="pageSize" expression="@sessionPageObj.size" />
+		
+		<div style="text-align:center">
+			<form:form 
+				action="${pageContext.request.contextPath}/todo/list"
+				method="get">
+				<input type="hidden" name="page" value="${pageNumber}" />
+				<input type="hidden" name="size" value="${pageSize}" />
+				<input type="submit" value="Back" class="btn btn-success" />
+			</form:form>
+		</div>
+		<div style="float:left">
+			
+		</div>
 </body>
 </html>

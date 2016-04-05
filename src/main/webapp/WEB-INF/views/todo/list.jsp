@@ -132,9 +132,11 @@ color: #c60f13;
 							<c:otherwise>
 								<form:form name="detailForm" 
 									action="${pageContext.request.contextPath}/todo/detail"
-									method="post"
+									method="get"
 									modelAttribute="todoForm">
 									<input type="hidden" name="todoId" value="${f:h(todo.todoId)}" />
+									<input type="hidden" name="page" value="${todos.number}" />
+									<input type="hidden" name="size" value="${todos.size}" />
 									<a href="#" onClick="return toDetail('detailForm','${pageContext.request.contextPath}/todo/detail','GET')">${f:h(todo.todoTitle)}</a>
 								</form:form>
 							</c:otherwise>
