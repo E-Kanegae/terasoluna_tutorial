@@ -68,7 +68,7 @@
 				<form:form name="detailForm" 
 					action="${pageContext.request.contextPath}/todo/detail"
 					method="get" 
-					modelAttribute="todoForm">>
+					modelAttribute="todoForm">
 					<form:hidden path="todoId" value="${f:h(todo.todoId)}" />
 				<div>
 					<input type="submit" value="Back" class="btn btn-success" />

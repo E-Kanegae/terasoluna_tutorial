@@ -77,9 +77,12 @@ public class TodoController {
 		Todo todo = todoService.findOne(todoForm.getTodoId());
 		model.addAttribute(todo);
 		
-		//SpringFrameworkのsessionスコープへのpage, sizeのセット
-		sessionPageObj.setPage(pageable.getPageNumber());
-		sessionPageObj.setSize(pageable.getPageSize());
+		//Pageableオブジェクトがデフォルト値でなければ
+		if (pageable.getPageNumber()!= 0 & pageable.getPageSize()!= 20 ){
+			//SpringFrameworkのsessionスコープへのpage, sizeのセット
+			sessionPageObj.setPage(pageable.getPageNumber());
+			sessionPageObj.setSize(pageable.getPageSize());
+		}
 		
 		return "todo/detail"; 
 		}
