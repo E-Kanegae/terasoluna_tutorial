@@ -116,7 +116,6 @@ color: #c60f13;
 					<td>Onwer</td>
 					<td>Finished</td>
 					<td>Deleted</td>
-					<td>Remarks</td>
 				</tr>
 			</thead>
 			<tbody>

@@ -2,6 +2,7 @@ package todo5.domain.service.common;
 
 import javax.inject.Inject;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
@@ -14,7 +15,9 @@ public class UserAccountSharedServiceImpl implements UserAccountSharedService {
 	
 	@Inject
 	UserAccountRepository userAccountRepository;
-
+	
+	@Inject
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 	/**
 	 * Input:String ログインID
 	 * Output:UserAccountオブジェクト

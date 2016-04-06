@@ -35,8 +35,7 @@
 					category t2
 				ON t1.category_id = t2.category_id 
 		WHERE
-			todo_id = #{todoId}
-		AND finished = false 
+			todo_id = #{todoId} 
 	]]>
 	</select>
 
@@ -118,9 +117,9 @@
 
 	<delete id="delete" parameterType="Todo">
 	<![CDATA[
-		DELETE FROM
-			todo
-		WHERE
+		DELETE FROM 
+			todo 
+		WHERE 
 			todo_id = #{todoId}
 	]]>
 	</delete>

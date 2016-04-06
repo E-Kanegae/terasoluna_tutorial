@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,7 @@ import org.terasoluna.gfw.common.message.ResultMessage;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
 import todo5.app.common.SessionPageObj;
+import todo5.app.todo.TodoForm.TodoCreate;
 import todo5.app.todo.TodoForm.TodoDelete;
 import todo5.app.todo.TodoForm.TodoDetail;
 import todo5.app.todo.TodoForm.TodoFinish;
@@ -77,8 +79,10 @@ public class TodoController {
 		Todo todo = todoService.findOne(todoForm.getTodoId());
 		model.addAttribute(todo);
 		
+		PageableHandlerMethodArgumentResolver pageResolve = new PageableHandlerMethodArgumentResolver();
+
 		//Pageableオブジェクトがデフォルト値でなければ
-		if (pageable.getPageNumber()!= 0 & pageable.getPageSize()!= 20 ){
+		if (!pageResolve.isFallbackPageable(pageable)){
 			//SpringFrameworkのsessionスコープへのpage, sizeのセット
 			sessionPageObj.setPage(pageable.getPageNumber());
 			sessionPageObj.setSize(pageable.getPageSize());
@@ -91,7 +95,7 @@ public class TodoController {
      * タスク情報編集画面表示処理
      */
 	@RequestMapping(value = "editPage")
-	public String editPage(TodoForm todoForm, Model model) {
+	public String editPage(@Validated({ Default.class, TodoDetail.class }) TodoForm todoForm, Model model) {
 		
 		Todo todo = todoService.findOne(todoForm.getTodoId());
 		model.addAttribute(todo);
@@ -115,11 +119,11 @@ public class TodoController {
      * Todoタスク作成処理
      */
 	@RequestMapping(value = "create", method = RequestMethod.POST)
-	public String create(@Validated({ Default.class, TodoDetail.class }) TodoForm todoForm, BindingResult bindingResult,
+	public String create(@Validated({ Default.class, TodoCreate.class }) TodoForm todoForm, BindingResult bindingResult,
 			Model model, RedirectAttributes attributes) {
 		
 		if (bindingResult.hasErrors()) {
-			return list(null, model);
+        	return "todo/list";
 		}
 		
 		Todo todo = beanMapper.map(todoForm, Todo.class);
@@ -146,13 +150,13 @@ public class TodoController {
 			BindingResult bindingResult, Model model,RedirectAttributes attributes) {
 	
 	if (bindingResult.hasErrors()) {
-		return list(null, model);
+		return "todo/list";
 	}
 	try {
 		todoService.finish(form.getTodoId());
 	} catch (BusinessException e) {
 		model.addAttribute(e.getResultMessages());
-		return list(null, model);
+		return "todo/list";
 	}
 	
 	attributes.addFlashAttribute(ResultMessages.success().add(
@@ -167,13 +171,13 @@ public class TodoController {
 	public String delete(@Validated({ Default.class, TodoDelete.class }) TodoForm form,
 			BindingResult bindingResult, Model model,RedirectAttributes attributes) {
 	if (bindingResult.hasErrors()) {
-		return list(null, model);
+		return "todo/list";
 	}
 	try {
 		todoService.delete(form.getTodoId());
 	} catch (BusinessException e) {
 		model.addAttribute(e.getResultMessages());
-		return list(null, model);
+		return "todo/list";
 	}
 	attributes.addFlashAttribute(ResultMessages.success().add(
 	ResultMessage.fromText("Deleted successfully!")));
