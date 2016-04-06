@@ -129,14 +129,14 @@ color: #c60f13;
 								</span>
 							</c:when>
 							<c:otherwise>
-								<form:form name="detailForm" 
+								<form:form name="${f:h(todo.todoId)}" 
 									action="${pageContext.request.contextPath}/todo/detail"
 									method="get"
 									modelAttribute="todoForm">
 									<input type="hidden" name="todoId" value="${f:h(todo.todoId)}" />
 									<input type="hidden" name="page" value="${todos.number}" />
 									<input type="hidden" name="size" value="${todos.size}" />
-									<a href="#" onClick="return toDetail('detailForm','${pageContext.request.contextPath}/todo/detail','GET')">${f:h(todo.todoTitle)}</a>
+									<a href="#" onClick="return toDetail('${f:h(todo.todoId)}','${pageContext.request.contextPath}/todo/detail','GET')">${f:h(todo.todoTitle)}</a>
 								</form:form>
 							</c:otherwise>
 						</c:choose>

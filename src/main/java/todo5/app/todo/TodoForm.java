@@ -24,13 +24,16 @@ public class TodoForm implements Serializable {
 	public static interface TodoDetail {
 	}
 	
+	public static interface TodoEdit {
+	}
+	
 	private static final long serialVersionUID = 1L;
 	
-	@NotNull(groups = { TodoFinish.class, TodoDelete.class, TodoDetail.class })
+	@NotNull(groups = { TodoFinish.class, TodoDelete.class, TodoDetail.class, TodoEdit.class })
 	private String todoId;
 	
-	@NotNull(groups = { TodoCreate.class })
-	@Size(min = 1, max = 30, groups = { TodoCreate.class })
+	@NotNull(groups = { TodoCreate.class, TodoEdit.class })
+	@Size(min = 1, max = 30, groups = { TodoCreate.class, TodoEdit.class })
 	private String todoTitle;
 	
 	private String todoCategory;

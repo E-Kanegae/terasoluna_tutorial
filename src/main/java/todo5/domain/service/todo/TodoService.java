@@ -16,4 +16,6 @@ public interface TodoService {
 	
 	Todo findOne(String todoId);
 
+	Todo edit(Todo todo);
+
 }

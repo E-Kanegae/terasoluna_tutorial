@@ -26,6 +26,7 @@ import todo5.app.common.SessionPageObj;
 import todo5.app.todo.TodoForm.TodoCreate;
 import todo5.app.todo.TodoForm.TodoDelete;
 import todo5.app.todo.TodoForm.TodoDetail;
+import todo5.app.todo.TodoForm.TodoEdit;
 import todo5.app.todo.TodoForm.TodoFinish;
 import todo5.domain.model.Todo;
 import todo5.domain.service.todo.TodoService;
@@ -107,12 +108,24 @@ public class TodoController {
      * タスク情報編集処理
      */
 	@RequestMapping(value = "edit")
-	public String edit(TodoForm todoForm, Model model) {
+	public String edit(@Validated({ Default.class, TodoEdit.class }) TodoForm todoForm, 
+			BindingResult bindingResult, Model model) {
 		
-		Todo todo = todoService.findOne(todoForm.getTodoId());
+		if (bindingResult.hasErrors()) {
+        	return "todo/list";
+		}
+		
+		Todo todo = beanMapper.map(todoForm, Todo.class);
+		
+		try{
+			todo = todoService.edit(todo);
+		}catch(BusinessException e){
+			//Save失敗メッセージをセットする。
+			model.addAttribute(e.getResultMessages());
+			return "todo/list";
+		}		
 		model.addAttribute(todo);
-		
-		return "todo/edit"; 
+		return "todo/detail"; 
 	}
 
     /*
@@ -134,7 +147,7 @@ public class TodoController {
 			
 			model.addAttribute(e.getResultMessages());
 			
-			return list(null, model);
+			return "todo/list";
 		}
 			
 			attributes.addFlashAttribute(ResultMessages.success().add(

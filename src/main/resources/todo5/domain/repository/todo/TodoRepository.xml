@@ -16,6 +16,23 @@
 		<result property="cmt" column="remarks" />
 	</resultMap>
 
+	<select id="edit" parameterType="Todo">
+	<![CDATA[
+		UPDATE 
+			todo 
+		SET 
+			todo_title = #{todoTitle},
+			category_id = #{todoCategory},
+			fullname = #{fullName},
+			firstname = #{firstName} ,
+			lastname = #{lastName},
+			priority = #{todoPriority},
+			remarks = #{cmt}
+		WHERE
+			todo_id = #{todoId} 
+	]]>
+	</select>
+	
 	<select id="findOne" parameterType="String" resultMap="todoResultMap">
 	<![CDATA[
 		SELECT 

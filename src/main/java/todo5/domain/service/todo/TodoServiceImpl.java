@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,31 @@ public class TodoServiceImpl implements TodoService {
 	
 	@Inject
 	TodoRepository todoRepository;
+	
+    /*
+     * Todoタスク編集処理
+     */
+	@Override
+	public Todo edit(Todo todo) {
+
+		todo.setFullName(String.join(" ", todo.getFirstName(), todo.getLastName()));
+		
+		try{
+			todoRepository.edit(todo);
+		//結果が0件だった場合	
+		}catch(EmptyResultDataAccessException e){
+			ResultMessages messages = ResultMessages.error();
+			messages.add(ResultMessage
+			.fromText("[E004] This Task has beendy deleted by anyone. (Title="
+			+ todo.getTodoTitle() + ")"));
+			
+			throw new BusinessException(messages);
+		}
+		//足りない情報もあるのでもう一回取得する。
+		todo = todoRepository.findOne(todo.getTodoId());
+		
+		return todo;
+	}
 	
     /*
      * Todoタスク詳細表示処理
