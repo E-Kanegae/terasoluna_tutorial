@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.message.ResultMessage;
@@ -27,7 +28,6 @@ import todo5.app.todo.TodoForm.TodoCreate;
 import todo5.app.todo.TodoForm.TodoDelete;
 import todo5.app.todo.TodoForm.TodoDetail;
 import todo5.app.todo.TodoForm.TodoEdit;
-import todo5.app.todo.TodoForm.TodoFinish;
 import todo5.domain.model.Todo;
 import todo5.domain.service.todo.TodoService;
 
@@ -156,25 +156,33 @@ public class TodoController {
 	}
 	
     /*
-     * タスククローズ処理
+     * タスククローズ処理(非同期)
      */
-	@RequestMapping(value = "finish", method = RequestMethod.POST)
-	public String finish(@Validated({ Default.class, TodoFinish.class }) TodoForm form,
-			BindingResult bindingResult, Model model,RedirectAttributes attributes) {
+	@RequestMapping(value = "finish", method = RequestMethod.GET)
+	@ResponseBody
+	public TodoFinishResult finish(@Validated TodoFinishRequest req, BindingResult bindingResult) {
 	
-	if (bindingResult.hasErrors()) {
-		return "todo/list";
-	}
-	try {
-		todoService.finish(form.getTodoId());
-	} catch (BusinessException e) {
-		model.addAttribute(e.getResultMessages());
-		return "todo/list";
-	}
-	
-	attributes.addFlashAttribute(ResultMessages.success().add(
-					ResultMessage.fromText("Finished successfully!")));
-	return "redirect:/todo/list";
+		TodoFinishResult result = new TodoFinishResult();
+		
+		if (bindingResult.hasErrors()) {
+			//エラーメッセージを設定する。
+			result.setFinished(false);
+			result.setErrMsg("TodoId has not sent to AP server.");
+			return result;
+		}
+		
+		try {
+			todoService.finish(req.getTodoId());
+		} catch (BusinessException e) {
+			result.setFinished(false);
+			result.setErrMsg(e.getResultMessages().toString());
+			return result;
+		}
+		result.setTodoId(req.getTodoId());
+		result.setTodoTitle(req.getTodoTitle());
+		result.setFinished(true);
+		
+		return result;
 	}
 	
     /*

@@ -2,9 +2,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- Ajax用 -->
+<meta name="contextPath" content="${pageContext.request.contextPath}" />
+<!-- Ajax用 -->
+
 <title>Todo List</title>
+<script type="text/javascript"
+    src="${pageContext.request.contextPath}/resources/jquery/jquery-1.12.2.min.js">
+</script>
 <script type="text/javascript">
- function toDetail(formName, url, method)
+var contextPath = $("meta[name='contextPath']").attr("content");
+
+function toDetail(formName, url, method)
  {
    var f = document.forms[formName];
    f.method = method;
@@ -12,7 +22,32 @@
    f.submit();
    return true;
  }
- </script>
+ 
+function finishTodo() {
+    $.ajax(contextPath + "/todo/finish", {
+        type : "GET",
+        data : $("#finishForm").serialize(),
+        dataType : "json", 
+        
+    }).done(function(json) {
+		var rmTitle;
+		var mkStrike;
+		var isFinished;
+		isFinished = json.isFinished;
+		if(isFinished == true){
+			rmTitle = document.getElementById(json.todoTitle);
+			var rmTitle_parent = rmTitle.parentNode;
+			rmTitle_parent.removeChild(rmTitle);
+		}else{
+			return false;
+		}
+    }).fail(function(xhr) {
+    	//何かエラー処理を実装する。
+    	return false;
+    });
+    return false;
+}
+</script>
 <style type="text/css">
 .strike {
 text-decoration: line-through;
@@ -121,7 +156,7 @@ color: #c60f13;
 			<tbody>
 				<c:forEach items="${todos.content}" var="todo">
 				<tr>
-					<td>
+					<td id="'TodoTd_' + ${f:h(todo.todoId)}">
 						<c:choose>
 							<c:when test="${todo.finished}">
 								<span class="strike">
@@ -129,15 +164,17 @@ color: #c60f13;
 								</span>
 							</c:when>
 							<c:otherwise>
-								<form:form name="${f:h(todo.todoId)}" 
-									action="${pageContext.request.contextPath}/todo/detail"
-									method="get"
-									modelAttribute="todoForm">
-									<input type="hidden" name="todoId" value="${f:h(todo.todoId)}" />
-									<input type="hidden" name="page" value="${todos.number}" />
-									<input type="hidden" name="size" value="${todos.size}" />
-									<a href="#" onClick="return toDetail('${f:h(todo.todoId)}','${pageContext.request.contextPath}/todo/detail','GET')">${f:h(todo.todoTitle)}</a>
-								</form:form>
+								<div id = "'todoLinkId_' + ${f:h(todo.todoId)}">
+									<form:form name="${f:h(todo.todoId)}" 
+										action="${pageContext.request.contextPath}/todo/detail"
+										method="get"
+										modelAttribute="todoForm">
+										<input type="hidden" name="todoId" value="${f:h(todo.todoId)}" />
+										<input type="hidden" name="page" value="${todos.number}" />
+										<input type="hidden" name="size" value="${todos.size}" />
+										<a href="#" onClick="return toDetail('${f:h(todo.todoId)}','${pageContext.request.contextPath}/todo/detail','GET')">${f:h(todo.todoTitle)}</a>
+									</form:form>
+								</div>
 							</c:otherwise>
 						</c:choose>
 					</td>
@@ -155,14 +192,11 @@ color: #c60f13;
 							<c:when test="${todo.finished}">
 							</c:when>
 							<c:otherwise>
-								<form:form
-									action="${pageContext.request.contextPath}/todo/finish"
-									method="post"
-									modelAttribute="todoForm"
-									cssStyle="display: inline-block;">
-									<form:hidden path="todoId" value="${f:h(todo.todoId)}" />
-									<input type="submit" name="finish" value="Finish" />
-								</form:form>
+								<form id="finishForm">
+									<input type="hidden" name="todoId" value="${f:h(todo.todoId)}" />
+									<input type="hidden" name="todoTitle" value="${f:h(todo.todoTitle)}" />
+									<button onclick="return finishTodo()">Finish</button>
+								</form>
 							</c:otherwise>
 						</c:choose>
 					</td>
