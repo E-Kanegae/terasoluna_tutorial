@@ -25,6 +25,14 @@
         </table>
         <ul>
         	<li><a href="${pageContext.request.contextPath}/todo/list">Todo List</a></li>
+        	<li><input type="button"  value="Todo List(onClick)" onClick="location.href='${pageContext.request.contextPath}/todo/list'"></li>
+        	<li>
+        		<form:form
+					action="${pageContext.request.contextPath}/todo/list"
+					method="get" modelAttribute="todoForm">
+					<input type="submit" value="Todo List(Form)"  />
+				</form:form>
+        	</li>
         </ul>
     </div>
 </body>
