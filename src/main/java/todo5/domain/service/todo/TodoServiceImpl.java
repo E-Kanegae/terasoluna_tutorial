@@ -107,19 +107,18 @@ public class TodoServiceImpl implements TodoService {
 	}
 
 	@Override
-	public Todo finish(String todoId) {
+	public void finish(String todoId) {
 		// TODO Auto-generated method stub
 		Todo todo = findOne(todoId);
 		if (todo.isFinished()) {
-		ResultMessages messages = ResultMessages.error();
-		messages.add(ResultMessage
-		.fromText("[E002] The requested Todo is already finished. (id="
-		+ todoId + ")"));
-		throw new BusinessException(messages);
+			ResultMessages messages = ResultMessages.error();
+			messages.add(ResultMessage
+			.fromText("[E002] The requested Todo is already finished. (id="
+			+ todoId + ")"));
+			throw new BusinessException(messages);
 		}
 		todo.setFinished(true);
 		todoRepository.update(todo);
-		return todo;
 	}
 
 	@Override

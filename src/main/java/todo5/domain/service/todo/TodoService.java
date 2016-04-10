@@ -10,7 +10,7 @@ public interface TodoService {
 	
 	Todo create(Todo todo);
 	
-	Todo finish(String todoId);
+	void finish(String todoId);
 	
 	void delete(String todoId);
 	

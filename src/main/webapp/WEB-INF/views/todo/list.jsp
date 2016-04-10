@@ -33,16 +33,33 @@ function finishTodo() {
 		var rmTitle;
 		var mkStrike;
 		var isFinished;
-		isFinished = json.isFinished;
+		var rmFinishButton;
+		
+		isFinished = json.finished;
 		if(isFinished == true){
-			rmTitle = document.getElementById(json.todoTitle);
+			//対象タスク削除
+			rmTitle = document.getElementById(json.todoId);
 			var rmTitle_parent = rmTitle.parentNode;
 			rmTitle_parent.removeChild(rmTitle);
+			
+			//innerHTMLで新たに作成
+			var element = document.createElement('span'); 
+			element.innerHTML = json.todoTitle;
+			element.style.textDecoration = "line-through"; 
+			
+			 var objBody = document.getElementById("td_" + json.todoId);
+			 objBody.appendChild(element);
+			//Finishボタンを削除
+			rmFinishButton = document.getElementById("finish_" + json.todoId);
+			var rmFinish_parent = rmFinishButton.parentNode;
+			rmFinish_parent.removeChild(rmFinishButton);
+			 
 		}else{
 			return false;
 		}
     }).fail(function(xhr) {
-    	//何かエラー処理を実装する。
+    	//何かエラー処理を実装する。一時的にアラート表示するだけ。
+    	alert("サーバサイド処理失敗");
     	return false;
     });
     return false;
@@ -156,7 +173,7 @@ color: #c60f13;
 			<tbody>
 				<c:forEach items="${todos.content}" var="todo">
 				<tr>
-					<td id="'TodoTd_' + ${f:h(todo.todoId)}">
+					<td id="td_${f:h(todo.todoId)}">
 						<c:choose>
 							<c:when test="${todo.finished}">
 								<span class="strike">
@@ -164,7 +181,7 @@ color: #c60f13;
 								</span>
 							</c:when>
 							<c:otherwise>
-								<div id = "'todoLinkId_' + ${f:h(todo.todoId)}">
+								<div id = "${f:h(todo.todoId)}">
 									<form:form name="${f:h(todo.todoId)}" 
 										action="${pageContext.request.contextPath}/todo/detail"
 										method="get"
@@ -192,11 +209,13 @@ color: #c60f13;
 							<c:when test="${todo.finished}">
 							</c:when>
 							<c:otherwise>
+								<div id = "finish_${f:h(todo.todoId)}" >
 								<form id="finishForm">
 									<input type="hidden" name="todoId" value="${f:h(todo.todoId)}" />
 									<input type="hidden" name="todoTitle" value="${f:h(todo.todoTitle)}" />
 									<button onclick="return finishTodo()">Finish</button>
 								</form>
+								</div>
 							</c:otherwise>
 						</c:choose>
 					</td>
