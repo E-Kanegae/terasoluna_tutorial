@@ -87,6 +87,18 @@
         <servlet-name>appServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    
+    <!-- BotDetect -->
+    <servlet>
+    	<servlet-name>BotDetect Captcha</servlet-name>
+    	<servlet-class>botdetect.web.http.CaptchaServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>BotDetect Captcha</servlet-name>
+	    <url-pattern>/botdetectcaptcha</url-pattern>
+	</servlet-mapping> 
+    
+  
 
     <jsp-config>
         <jsp-property-group>

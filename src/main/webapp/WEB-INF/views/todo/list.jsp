@@ -1,3 +1,4 @@
+<%@taglib prefix="botDetect" uri="botDetect"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -148,6 +149,14 @@ color: #c60f13;
 				</td></tr>
 		</table>
 	</div><br/>
+	
+	<!-- captcha -->
+	<botDetect:captcha id="basicExampleCaptcha"/>
+	<div class="validationDiv">
+    	<input id="captchaCodeTextBox" type="text"
+           name="captchaCodeTextBox" value=""/>
+	</div><br/>
+	
 	<div style="text-align:right">
 		<input type="submit" value="Create Todo" class="btn btn-success" />
 	</div>

@@ -40,7 +40,13 @@
             <id>terasoluna-gfw-snapshots</id>
             <url>http://repo.terasoluna.org/nexus/content/repositories/terasoluna-gfw-snapshots/</url>
         </repository>
+        <repository>
+  			<id>captcha</id>
+			<name>BotDetect Captcha Repository</name>
+			<url>https://git.captcha.com/maven.git/blob_plain/HEAD:/</url>
+		</repository>
     </repositories>
+
 
     <build>
         <pluginManagement>
@@ -136,7 +142,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.4-1205-jdbc42</version>
+            <version>9.4-1206-jdbc42</version>
         </dependency>
 
         <!-- Servlet API/ JSP API -->
@@ -174,6 +180,12 @@
             <artifactId>tomcat-embed-el</artifactId>
             <scope>test</scope>
         </dependency>
+        
+        <dependency>
+		  <groupId>com.captcha</groupId>
+		  <artifactId>botdetect</artifactId>
+		  <version>4.0.alpha4</version>
+		</dependency>
 
     </dependencies>
 </project>

@@ -1,6 +1,7 @@
 package todo5.app.todo;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.groups.Default;
 
@@ -23,6 +24,7 @@ import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.message.ResultMessage;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
+import botdetect.web.Captcha;
 import todo5.app.common.SessionPageObj;
 import todo5.app.todo.TodoForm.TodoCreate;
 import todo5.app.todo.TodoForm.TodoDelete;
@@ -133,12 +135,19 @@ public class TodoController {
      */
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public String create(@Validated({ Default.class, TodoCreate.class }) TodoForm todoForm, BindingResult bindingResult,
-			Model model, RedirectAttributes attributes) {
+			Model model, RedirectAttributes attributes, HttpServletRequest  req) {
 		
 		if (bindingResult.hasErrors()) {
         	return "todo/list";
 		}
 		
+		//BotDetect実装
+		Captcha captcha = Captcha.load(req, "basicExampleCaptcha");
+		boolean isHuman = captcha.validate(req, todoForm.getCaptchaCodeTextBox());
+		if (!isHuman) {
+			return "todo/list";
+		} 
+
 		Todo todo = beanMapper.map(todoForm, Todo.class);
 		
 		try {
@@ -168,6 +177,8 @@ public class TodoController {
 			//エラーメッセージを設定する。
 			result.setFinished(false);
 			result.setErrMsg("TodoId has not sent to AP server.");
+
+
 			return result;
 		}
 		
