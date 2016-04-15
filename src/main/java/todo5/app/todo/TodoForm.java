@@ -42,5 +42,7 @@ public class TodoForm implements Serializable {
 	private String todoPriority;
 	
 	private String cmt;
+	
+	private String captchaCodeTextBox;
 
 }
