@@ -94,7 +94,7 @@ public class TodoServiceImpl implements TodoService {
     }
 
 	@Override
-	public Todo create(Todo todo) {
+	public void create(Todo todo) {
 		
 		String todoId = UUID.randomUUID().toString();
 		Date createdAt = new Date();
@@ -103,7 +103,6 @@ public class TodoServiceImpl implements TodoService {
 		todo.setFinished(false);
 		todo.setFullName(String.join(" ", todo.getFirstName(), todo.getLastName()));
 		todoRepository.create(todo);
-		return todo;
 	}
 
 	@Override
