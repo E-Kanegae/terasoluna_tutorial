@@ -8,7 +8,7 @@ import todo5.domain.model.Todo;
 public interface TodoService {
 	Page<Todo> findAll(Pageable pageable);
 	
-	void create(Todo todo);
+	Todo create(Todo todo);
 	
 	void finish(String todoId);
 	

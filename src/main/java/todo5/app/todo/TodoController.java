@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.message.ResultMessage;
@@ -32,8 +31,6 @@ import todo5.app.todo.TodoForm.TodoDelete;
 import todo5.app.todo.TodoForm.TodoDetail;
 import todo5.app.todo.TodoForm.TodoEdit;
 import todo5.domain.model.Todo;
-import todo5.domain.model.TodoFile;
-import todo5.domain.service.todo.FileUploadService;
 import todo5.domain.service.todo.TodoService;
 
 @Controller
@@ -42,8 +39,6 @@ public class TodoController {
 	
 	@Inject
 	TodoService todoService;
-	@Inject
-	FileUploadService fileUploadService;
 	
 	@Inject
 	Mapper beanMapper;
@@ -220,36 +215,5 @@ public class TodoController {
 	ResultMessage.fromText("Deleted successfully!")));
 	
 	return "redirect:/todo/list";
-	}
-
-
-    /*
-     * 複数ファイルアップロード処理
-     */
-	@RequestMapping(value = "uploadFiles", method = RequestMethod.POST)
-	public String uploadFiles(@Validated MultiFileUploadForm form,
-	        BindingResult result, RedirectAttributes redirectAttributes) {
-
-	    if (result.hasErrors()) {
-	        return "todo/fileUpload";
-	    }
-	    
-	    for (int i = 0 ; i < form.getFileUploadForms().size() ; i++) {
-
-	        MultipartFile uploadFile = form.getFileUploadForms().get(i).getFile();
-	        
-	        TodoFile todoFile = beanMapper.map(uploadFile, TodoFile.class);
-	        
-	        try{
-	        	fileUploadService.upload(todoFile);
-	        }catch(BusinessException e){
-	        	
-	        }
-	    }
-
-	    redirectAttributes.addFlashAttribute(ResultMessages.success().add(
-	            "i.xx.at.0001"));
-
-	    return "redirect:/todo/upload?complete";
 	}
 }
