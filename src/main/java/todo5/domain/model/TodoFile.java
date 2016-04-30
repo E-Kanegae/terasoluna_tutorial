@@ -12,8 +12,9 @@ public class TodoFile implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String todoId;
-	private int file_no;
-	private Byte[] file;
+	private String fileNm;
+	private int fileNo;
+	private byte[] file;
 	private String description;
 	
 }

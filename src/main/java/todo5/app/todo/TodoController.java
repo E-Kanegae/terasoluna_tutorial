@@ -1,5 +1,9 @@
 package todo5.app.todo;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.terasoluna.gfw.common.exception.BusinessException;
@@ -38,6 +43,7 @@ import todo5.domain.service.todo.TodoService;
 
 @Controller
 @RequestMapping("todo")
+@SessionAttributes(types = {TodoForm.class})
 public class TodoController {
 	
 	@Inject
@@ -58,6 +64,12 @@ public class TodoController {
 		return form;
 		}
 	
+	//ファイルアップロード用のフォームオブジェクトを、Modelに格納する
+    @ModelAttribute
+    public MultiFileUploadForm setMultiFileUploadForm() {
+        return new MultiFileUploadForm();
+    }
+    
     /*
      * Todoリスト検索処理
      */
@@ -95,6 +107,9 @@ public class TodoController {
 			sessionPageObj.setPage(pageable.getPageNumber());
 			sessionPageObj.setSize(pageable.getPageSize());
 		}
+		
+		//アップロードファイル
+		model.addAttribute("files", null);
 		
 		return "todo/detail"; 
 		}
@@ -140,7 +155,7 @@ public class TodoController {
      */
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public String create(@Validated({ Default.class, TodoCreate.class }) TodoForm todoForm, BindingResult bindingResult,
-			Model model, RedirectAttributes attributes, HttpServletRequest  req) {
+			Model model, RedirectAttributes attributes, HttpServletRequest req) {
 		
 		if (bindingResult.hasErrors()) {
         	return "todo/list";
@@ -222,34 +237,62 @@ public class TodoController {
 	return "redirect:/todo/list";
 	}
 
+	/*
+     * ファイルアップロード画面への遷移
+     */
+	@RequestMapping(value = "fileUpload")
+	public String mvTofileUpload(TodoForm form,
+	        BindingResult bindingResult, Model model) {
+		
+			model.addAttribute("todoId", form.getTodoId());
+			return "todo/fileUpload";
+	    }
 
     /*
      * 複数ファイルアップロード処理
      */
 	@RequestMapping(value = "uploadFiles", method = RequestMethod.POST)
 	public String uploadFiles(@Validated MultiFileUploadForm form,
-	        BindingResult result, RedirectAttributes redirectAttributes) {
+	        BindingResult bindingResult, Model model) {
 
-	    if (result.hasErrors()) {
+	    if (bindingResult.hasErrors()) {
 	        return "todo/fileUpload";
 	    }
 	    
+	    List<String> fileNames = new ArrayList<String>();
+	    
+	    //1ファイルづつDBに登録する。
 	    for (int i = 0 ; i < form.getFileUploadForms().size() ; i++) {
 
 	        MultipartFile uploadFile = form.getFileUploadForms().get(i).getFile();
+		    
+	        //MapperはfileだとNGなのでHelperを作る。
+	        //TodoFile todoFile = beanMapper.map(uploadFile, TodoFile.class);
+	        TodoFile todoFile = new TodoFile();
 	        
-	        TodoFile todoFile = beanMapper.map(uploadFile, TodoFile.class);
+	        try {
+				todoFile.setFile(form.getFileUploadForms().get(i).getFile().getBytes());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	        
+	        todoFile.setDescription(form.getFileUploadForms().get(i).getDescription());
+	        todoFile.setTodoId(form.getFileUploadForms().get(i).getTodoId());
+	        todoFile.setFileNm(form.getFileUploadForms().get(i).getFile().getOriginalFilename());
 	        
 	        try{
 	        	fileUploadService.upload(todoFile);
+	        	fileNames.add(i, uploadFile.getName());
 	        }catch(BusinessException e){
-	        	
+	        	model.addAttribute("errorMsg", "File couldn't be registered.");
+	        	return "todo/fileUpload";
 	        }
 	    }
-
-	    redirectAttributes.addFlashAttribute(ResultMessages.success().add(
-	            "i.xx.at.0001"));
-
-	    return "redirect:/todo/upload?complete";
+	    //返却用にオブジェクトを作成する。
+	    TodoForm todoForm = new TodoForm();
+	    todoForm.setTodoId(form.getFileUploadForms().get(0).getTodoId());
+	    
+	    return editPage(todoForm, model);
 	}
 }

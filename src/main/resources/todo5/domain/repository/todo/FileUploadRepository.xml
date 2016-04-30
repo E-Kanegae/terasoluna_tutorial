@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="todo5.domain.repository.todo.FileUploadRepository">
+	
+	<select id="registerFile" parameterType="TodoFile">
+	<![CDATA[
+		INSERT INTO todo_file
+			(
+			todo_id,
+			file_no,
+			file,
+			description,
+			file_nm
+			)
+		VALUES
+			(
+			#{todoId},
+			#{fileNo},
+			#{file},
+			#{description},
+			#{fileNm}
+			)
+	]]>
+	</select>
+	
+	<select id="getFileNumber" parameterType="TodoFile" resultType="Integer">
+	<![CDATA[
+		SELECT 
+			max(file_no)
+		FROM
+			todo_file
+		WHERE
+			todo_id = #{todoId}
+	]]>
+	</select>
+</mapper>

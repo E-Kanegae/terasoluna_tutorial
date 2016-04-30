@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Todo List</title>
+<title>File Upload</title>
 <style type="text/css"></style>
 <link rel="stylesheet"
     href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap-3.3.1-dist/css/bootstrap.css"
@@ -14,12 +14,13 @@
 
 	<form:form
 	  action="${pageContext.request.contextPath}/todo/uploadFiles" method="post"
-	  modelAttribute="MultiFileUploadForm" enctype="multipart/form-data">
+	  modelAttribute="multiFileUploadForm" enctype="multipart/form-data">
 	  <table>
 	    <tr>
 	      <th width="35%">File to upload</th>
 	      <td width="65%">
 	        <form:input type="file" path="fileUploadForms[0].file" />
+	        <form:hidden path="fileUploadForms[0].todoId" value="${f:h(todoId)}"/>
 	        <form:errors path="fileUploadForms[0].file" />
 	      </td>
 	    </tr>

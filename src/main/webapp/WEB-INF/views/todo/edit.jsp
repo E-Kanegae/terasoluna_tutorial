@@ -9,8 +9,37 @@
     type="text/css" media="screen, projection">
 </head>
 
+<script type="text/javascript">
+
+function toFileUpload(formName, url, method)
+ {
+   var f = document.forms[formName];
+   f.method = method;
+   f.action = url; 
+   f.submit();
+   return true;
+ }
+</script>
+
 <body>
 	<h1>Todo Detail</h1>
+	
+	<!-- ファイル名表示 -->
+	<c:choose>
+		<c:when test="${todo.fileNm != null}">
+			<c:set var="linkNm" value="${f:h(todo.fileNm)}" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="linkNm" value="File Upload" />
+		</c:otherwise>
+	</c:choose>
+
+        <c:when test="${todo.finished}">
+            <c:set var="trStyle" value="warning" />
+        </c:when>
+        <c:otherwise>
+            <c:set var="trStyle" value="" />
+        </c:otherwise>
 		<div class="container">
 			<form:form name="editForm" 
 				action="${pageContext.request.contextPath}/todo/edit"
@@ -56,6 +85,13 @@
 							Remarks:
 						</td><td>
 							<form:input path="cmt" value="${f:h(todo.cmt)}"/>
+						</td></tr>
+					<tr><td>
+							file:
+						</td><td>
+							<a href="#" onClick="return toFileUpload('detailForm',
+							'${pageContext.request.contextPath}/todo/fileUpload',
+							'GET')">"${linkNm}"</a>
 						</td></tr>
 				</table>
 				<br/>

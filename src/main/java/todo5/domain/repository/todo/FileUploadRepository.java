@@ -4,6 +4,8 @@ import todo5.domain.model.TodoFile;
 
 public interface FileUploadRepository {
 	 
-	void file_register(TodoFile file);
+	void registerFile(TodoFile file);
+
+	Integer getFileNumber(String todoId);
 
 }

@@ -13,6 +13,7 @@
 		<result property="lastName" column="lastname" />
 		<result property="fullName" column="fullname" />
 		<result property="todoPriority" column="priority" />
+		<result property="fileNm" column="file_nm" />
 		<result property="cmt" column="remarks" />
 	</resultMap>
 
@@ -36,7 +37,7 @@
 	<select id="findOne" parameterType="String" resultMap="todoResultMap">
 	<![CDATA[
 		SELECT 
-			todo_id,
+			t1.todo_id,
 			todo_title,
 			finished,
 			created_at,
@@ -45,14 +46,18 @@
 			firstname,
 			lastname,
 			priority,
-			remarks
+			remarks,
+			file_nm
 		FROM
 			todo t1
 				INNER JOIN 
 					category t2
 				ON t1.category_id = t2.category_id 
+				LEFT OUTER JOIN 
+					todo_file t3
+				ON t1.todo_id = t3.todo_id 
 		WHERE
-			todo_id = #{todoId} 
+			t1.todo_id = #{todoId} 
 	]]>
 	</select>
 
