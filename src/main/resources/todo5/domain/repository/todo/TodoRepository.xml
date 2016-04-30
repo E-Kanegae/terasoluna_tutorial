@@ -12,7 +12,7 @@
 		<result property="firstName" column="firstname" />
 		<result property="lastName" column="lastname" />
 		<result property="fullName" column="fullname" />
-		<result property="todoPriority" column="priority" />
+		<result property="todoPriorityName" column="priority" />
 		<result property="fileNm" column="file_nm" />
 		<result property="cmt" column="remarks" />
 	</resultMap>
@@ -27,7 +27,7 @@
 			fullname = #{fullName},
 			firstname = #{firstName} ,
 			lastname = #{lastName},
-			priority = #{todoPriority},
+			priority = #{todoPriorityName},
 			remarks = #{cmt}
 		WHERE
 			todo_id = #{todoId} 
@@ -121,7 +121,7 @@
 			#{firstName},
 			#{lastName},
 			#{fullName},
-			#{todoPriority},
+			#{todoPriorityName},
 			#{cmt}
 			)
 	]]>

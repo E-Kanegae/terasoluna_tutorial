@@ -34,7 +34,7 @@
 				<tr><td>		
 						Priority:
 					</td><td>
-						${f:h(todo.todoPriority)}
+						${f:h(todo.todoPriorityName)}
 					</td></tr>
 				<!-- Created Date -->
 				<tr><td>		
@@ -54,23 +54,25 @@
 		<spring:eval var="pageNumber" expression="@sessionPageObj.page" /> 
 		<spring:eval var="pageSize" expression="@sessionPageObj.size" />
 		
-		<div style="text-align:center">
-			<form:form 
-				action="${pageContext.request.contextPath}/todo/list"
-				method="get">
-				<input type="hidden" name="page" value="${pageNumber}" />
-				<input type="hidden" name="size" value="${pageSize}" />
-				<input type="submit" value="Back" class="btn btn-success" />
-			</form:form>
-		</div>
-		<div style="float:right">
-			<form:form  name="editForm" 
-				action="${pageContext.request.contextPath}/todo/editPage"
-				method="post" 
-				modelAttribute="todoForm">
-				<form:hidden path="todoId" value="${f:h(todo.todoId)}" />
-				<input type="submit" value="Edit" class="btn btn-success" />
-			</form:form>
+		<div class="container">
+			<div style="float:left">
+				<form:form 
+					action="${pageContext.request.contextPath}/todo/list"
+					method="get">
+					<input type="hidden" name="page" value="${pageNumber}" />
+					<input type="hidden" name="size" value="${pageSize}" />
+					<input type="submit" value="Back" class="btn btn-success" />
+				</form:form>
+			</div>
+			<div style="float:left;margin-left:1%">
+				<form:form  name="editForm" 
+					action="${pageContext.request.contextPath}/todo/editPage"
+					method="post" 
+					modelAttribute="todoForm">
+					<form:hidden path="todoId" value="${f:h(todo.todoId)}" />
+					<input type="submit" value="Edit" class="btn btn-success" />
+				</form:form>
+			</div>
 		</div>
 </body>
 </html>

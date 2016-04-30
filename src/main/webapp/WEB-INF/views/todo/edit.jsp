@@ -11,11 +11,12 @@
 
 <script type="text/javascript">
 
-function toFileUpload(formName, url, method)
+function toFileUpload(formName, url, method, model)
  {
    var f = document.forms[formName];
    f.method = method;
-   f.action = url; 
+   f.action = url;
+   f.modelAttribute = model;
    f.submit();
    return true;
  }
@@ -34,11 +35,11 @@ function toFileUpload(formName, url, method)
 		</c:otherwise>
 	</c:choose>
 
-		<div class="container">
-			<form:form name="editForm" 
-				action="${pageContext.request.contextPath}/todo/edit"
-				method="post"
-				modelAttribute="todoForm">
+		<form:form name="editForm" 
+			action="${pageContext.request.contextPath}/todo/edit"
+			method="post"
+			modelAttribute="todoForm">
+			<div class="container">
 				<table class="table table-striped table-bordered">
 					<tr><td>
 							Category: 
@@ -70,7 +71,7 @@ function toFileUpload(formName, url, method)
 							Priority:
 						</td><td>
 							<form:select path="todoPriority">
-							    <form:option value="${f:h(todo.todoPriority)}" />
+							    <form:option value="${f:h(todo.todoPriorityName)}" />
 							    <form:options items="${CL_PRIORITY}" />
 							</form:select>
 						</td></tr>
@@ -88,13 +89,12 @@ function toFileUpload(formName, url, method)
 							'GET')">${linkNm}</a>
 						</td></tr>
 				</table>
-				<br/>
 				<form:hidden path="todoId" value="${f:h(todo.todoId)}" />
-				<div style="text-align:right">
-					<input type="submit" value="Save" class="btn btn-success" />
-				</div>
-			</form:form>
-			<div style="float:left">
+			</div>
+		</form:form>
+
+		<div class="container">
+			<div style="float:left;margin-left:1%">
 				<form:form name="detailForm" 
 					action="${pageContext.request.contextPath}/todo/detail"
 					method="get" 
@@ -104,6 +104,13 @@ function toFileUpload(formName, url, method)
 					<input type="submit" value="Back" class="btn btn-success" />
 				</div>
 				</form:form>
+			</div>
+			<div style="float:left">
+				<input type="button" value="Save" class="btn btn-success" 
+				onClick="return toFileUpload('editForm',
+							'${pageContext.request.contextPath}/todo/edit',
+							'POST', 'todoForm')"/>
+				
 			</div>
 		</div>
 </body>

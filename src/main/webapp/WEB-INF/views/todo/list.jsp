@@ -160,7 +160,7 @@ color: #c60f13;
 		</table>
 	</div><br/>
 	
-	<div style="text-align:right">
+	<div style="text-align:right;margin-right:10%">
 		<input type="submit" value="Create Todo" class="btn btn-success" />
 	</div>
 </form:form>
@@ -211,7 +211,7 @@ color: #c60f13;
 						${f:h(todo.todoCategoryName)}
 					</td>
 					<td>
-						${f:h(todo.todoPriority)}
+						${f:h(todo.todoPriorityName)}
 					</td>
 					<td>
 						${f:h(todo.fullName)}
