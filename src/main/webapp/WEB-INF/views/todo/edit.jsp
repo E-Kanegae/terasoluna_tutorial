@@ -34,12 +34,6 @@ function toFileUpload(formName, url, method)
 		</c:otherwise>
 	</c:choose>
 
-        <c:when test="${todo.finished}">
-            <c:set var="trStyle" value="warning" />
-        </c:when>
-        <c:otherwise>
-            <c:set var="trStyle" value="" />
-        </c:otherwise>
 		<div class="container">
 			<form:form name="editForm" 
 				action="${pageContext.request.contextPath}/todo/edit"
@@ -91,7 +85,7 @@ function toFileUpload(formName, url, method)
 						</td><td>
 							<a href="#" onClick="return toFileUpload('detailForm',
 							'${pageContext.request.contextPath}/todo/fileUpload',
-							'GET')">"${linkNm}"</a>
+							'GET')">${linkNm}</a>
 						</td></tr>
 				</table>
 				<br/>

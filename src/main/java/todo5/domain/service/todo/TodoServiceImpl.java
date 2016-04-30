@@ -123,9 +123,15 @@ public class TodoServiceImpl implements TodoService {
 	@Override
 	public void delete(String todoId) {
 		// TODO Auto-generated method stub
-		Todo todo = findOne(todoId);
+		Todo todo = todoRepository.findOne(todoId);
 		todoRepository.delete(todo);
 
+	}
+
+	@Override
+	public Integer countTodoFile(String todoId) {
+		Integer fileCount = todoRepository.countFile(todoId);
+		return fileCount;
 	}
 
 }

@@ -121,6 +121,12 @@ public class TodoController {
 	public String editPage(@Validated({ Default.class, TodoDetail.class }) TodoForm todoForm, Model model) {
 		
 		Todo todo = todoService.findOne(todoForm.getTodoId());
+		Integer fileCount = todoService.countTodoFile(todoForm.getTodoId());
+		
+		if(fileCount > 1){
+			todo.setFileNm(todo.getFileNm() + " 他、" + (fileCount-1) + "ファイル");
+		}
+		
 		model.addAttribute(todo);
 		
 		return "todo/edit"; 

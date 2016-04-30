@@ -26,7 +26,7 @@
 	<select id="getFileNumber" parameterType="TodoFile" resultType="Integer">
 	<![CDATA[
 		SELECT 
-			max(file_no)
+			max(file_no) 
 		FROM
 			todo_file
 		WHERE

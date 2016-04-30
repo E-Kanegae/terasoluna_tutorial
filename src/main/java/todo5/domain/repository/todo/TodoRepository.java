@@ -23,4 +23,6 @@ public interface TodoRepository {
 	long countByFinished(boolean finished);
 	
 	void edit(Todo todo);
+
+	Integer countFile(String todoId);
 }

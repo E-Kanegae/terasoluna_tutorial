@@ -18,4 +18,6 @@ public interface TodoService {
 
 	Todo edit(Todo todo);
 
+	Integer countTodoFile(String todoId);
+
 }

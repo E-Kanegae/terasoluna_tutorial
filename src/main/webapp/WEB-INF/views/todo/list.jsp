@@ -147,14 +147,17 @@ color: #c60f13;
 				</td><td>
 					<form:textarea path="cmt" />
 				</td></tr>
+			<!-- captcha -->
+			<tr><td>
+					Image Authentication:
+				</td><td>
+					<botDetect:captcha id="basicExampleCaptcha"/>
+					<div class="validationDiv">
+				    	<input id="captchaCodeTextBox" type="text"
+				           name="captchaCodeTextBox" value=""/>
+					</div>
+				</td></tr>
 		</table>
-	</div><br/>
-	
-	<!-- captcha -->
-	<botDetect:captcha id="basicExampleCaptcha"/>
-	<div class="validationDiv">
-    	<input id="captchaCodeTextBox" type="text"
-           name="captchaCodeTextBox" value=""/>
 	</div><br/>
 	
 	<div style="text-align:right">

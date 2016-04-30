@@ -58,6 +58,8 @@
 				ON t1.todo_id = t3.todo_id 
 		WHERE
 			t1.todo_id = #{todoId} 
+		ORDER BY t3.file_no ASC 
+		LIMIT 1
 	]]>
 	</select>
 
@@ -154,6 +156,17 @@
 			todo
 		WHERE
 			finished = #{finished}
+	]]>
+	</select>
+
+	<select id="countFile" resultType="Integer">
+	<![CDATA[
+		SELECT 
+			count(file_no) 
+		FROM
+			todo_file
+		WHERE
+			todo_id = #{todoId}
 	]]>
 	</select>
 </mapper>
