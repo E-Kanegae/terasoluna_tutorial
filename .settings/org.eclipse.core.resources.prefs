@@ -4,6 +4,7 @@ encoding//src/main/resources=UTF-8
 encoding//src/main/webapp/WEB-INF/views/todo/detail.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/todo/edit.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/todo/list.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/todoManage/search.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/welcome/home.jsp=UTF-8
 encoding//src/test/java=UTF-8
 encoding//src/test/resources=UTF-8

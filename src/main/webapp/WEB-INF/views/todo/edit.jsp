@@ -94,7 +94,7 @@ function toFileUpload(formName, url, method, model)
 		</form:form>
 
 		<div class="container">
-			<div style="float:left;margin-left:1%">
+			<div style="float:left">
 				<form:form name="detailForm" 
 					action="${pageContext.request.contextPath}/todo/detail"
 					method="get" 
@@ -105,7 +105,7 @@ function toFileUpload(formName, url, method, model)
 				</div>
 				</form:form>
 			</div>
-			<div style="float:left">
+			<div style="float:left;margin-left:1%">
 				<input type="button" value="Save" class="btn btn-success" 
 				onClick="return toFileUpload('editForm',
 							'${pageContext.request.contextPath}/todo/edit',

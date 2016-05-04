@@ -141,11 +141,24 @@ color: #c60f13;
 					    <form:options items="${CL_PRIORITY}" />
 					</form:select>
 				</td></tr>
+			<!-- 起票日-->
+			<tr><td>		
+					Create Date:
+				</td><td>
+					<form:input path="createdAt" />
+				</td></tr>
+			<!-- 期限 -->
+			<tr><td>		
+					Expiry Date:
+				</td><td>
+					<form:input path="expiryDate" />
+				</td></tr>
 			<!-- remarks -->
 			<tr><td>
 					Remarks:
 				</td><td>
 					<form:textarea path="cmt" />
+			
 				</td></tr>
 			<!-- captcha -->
 			<tr><td>

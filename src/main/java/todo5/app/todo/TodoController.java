@@ -74,7 +74,7 @@ public class TodoController {
 	@RequestMapping(value = "list")
 	public String list(@PageableDefault(
 	                page = 0, 
-	                size = 5,
+	                size = 3,
 	                direction = Direction.DESC,
 	                sort = {
 	                    "publishedDate",

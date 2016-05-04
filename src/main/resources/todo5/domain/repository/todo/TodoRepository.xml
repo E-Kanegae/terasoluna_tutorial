@@ -6,7 +6,7 @@
 		<result property="todoId" column="todo_id" />
 		<result property="todoTitle" column="todo_title" />
 		<result property="finished" column="finished" />
-		<result property="createdAt" column="created_at" />
+		<result property="createdAt" column="created_at" jdbcType="TIMESTAMP" typeHandler="todo5.infra.mybatis.typehandler.TimestampJodaDateTimeTypeHandler"/>
 		<result property="todoCategory" column="category_id" />
 		<result property="todoCategoryName" column="category_nm" />
 		<result property="firstName" column="firstname" />

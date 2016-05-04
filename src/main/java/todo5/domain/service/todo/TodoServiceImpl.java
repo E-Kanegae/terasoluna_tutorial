@@ -1,7 +1,6 @@
 package todo5.domain.service.todo;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -110,9 +109,7 @@ public class TodoServiceImpl implements TodoService {
 	public void create(Todo todo) {
 		
 		String todoId = UUID.randomUUID().toString();
-		Date createdAt = new Date();
 		todo.setTodoId(todoId);
-		todo.setCreatedAt(createdAt);
 		todo.setFinished(false);
 		todo.setFullName(String.join(" ", todo.getFirstName(), todo.getLastName()));
 		todo.setTodoPriorityName(this.getPriorityName(todo.getTodoPriority()));

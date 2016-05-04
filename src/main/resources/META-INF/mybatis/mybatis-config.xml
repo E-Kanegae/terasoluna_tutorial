@@ -26,9 +26,9 @@
     </typeAliases>
 
     <typeHandlers>
-<!--
+
         <package name="todo5.infra.mybatis.typehandler" />
--->
+
     </typeHandlers>
 
 </configuration>

@@ -32,17 +32,13 @@ public class TodoForm implements Serializable {
 	@NotNull(groups = { TodoCreate.class, TodoEdit.class })
 	@Size(min = 1, max = 30, groups = { TodoCreate.class, TodoEdit.class })
 	private String todoTitle;
-	
 	private String todoCategory;
-	
 	private String firstName;
-	
 	private String lastName;
-	
 	private String todoPriority;
-	
 	private String cmt;
-	
 	private String captchaCodeTextBox;
+	private String createdAt;
+	private String expiryDate;
 
 }
