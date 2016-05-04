@@ -12,6 +12,8 @@
 <body>
 	<h1>File Upload</h1>
 
+	<t:messagesPanel />
+	
 	<form:form
 	  action="${pageContext.request.contextPath}/todo/uploadFiles" method="post"
 	  modelAttribute="multiFileUploadForm" enctype="multipart/form-data">

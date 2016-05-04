@@ -10,12 +10,19 @@ import lombok.Setter;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import todo5.common.validator.annotation.UploadFileExtension;
+import todo5.common.validator.annotation.UploadFileNotEmpty;
+import todo5.common.validator.annotation.UploadFileRequired;
+
 @Setter
 @Getter
 public class FileUploadForm implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	@UploadFileExtension
+	@UploadFileNotEmpty
+	@UploadFileRequired
     private MultipartFile file;
     
     @NotNull

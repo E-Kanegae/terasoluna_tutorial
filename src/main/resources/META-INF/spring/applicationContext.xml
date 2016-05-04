@@ -25,6 +25,7 @@
         <property name="basenames">
             <list>
                 <value>i18n/application-messages</value>
+                <value>ValidationMessages</value>
             </list>
         </property>
     </bean>
