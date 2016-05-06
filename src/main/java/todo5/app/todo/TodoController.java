@@ -85,6 +85,14 @@ public class TodoController {
 		
 		Page<Todo> todos = todoService.findAll(pageable);
 		model.addAttribute("todos", todos); 
+		
+		//Pageableオブジェクトがデフォルト値でない場合,セッションにページ番号とページサイズを設定する。
+		PageableHandlerMethodArgumentResolver pageResolve = new PageableHandlerMethodArgumentResolver();
+		if (!pageResolve.isFallbackPageable(pageable)){
+			//SpringFrameworkのsessionスコープへのpage, sizeのセット
+			sessionPageObj.setPage(pageable.getPageNumber());
+			sessionPageObj.setSize(pageable.getPageSize());
+		}
 		return "todo/list"; 
 		}
 	
@@ -96,15 +104,6 @@ public class TodoController {
 		
 		Todo todo = todoService.findOne(todoForm.getTodoId());
 		model.addAttribute(todo);
-		
-		PageableHandlerMethodArgumentResolver pageResolve = new PageableHandlerMethodArgumentResolver();
-
-		//Pageableオブジェクトがデフォルト値でなければ
-		if (!pageResolve.isFallbackPageable(pageable)){
-			//SpringFrameworkのsessionスコープへのpage, sizeのセット
-			sessionPageObj.setPage(pageable.getPageNumber());
-			sessionPageObj.setSize(pageable.getPageSize());
-		}
 		
 		//アップロードファイル
 		model.addAttribute("files", null);

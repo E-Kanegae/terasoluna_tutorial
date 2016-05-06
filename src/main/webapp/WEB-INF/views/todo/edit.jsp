@@ -44,10 +44,7 @@ function toFileUpload(formName, url, method, model)
 					<tr><td>
 							Category: 
 						</td><td>
-							<form:select path="todoCategory">
-							    <form:option value="${f:h(todo.todoCategoryName)}" />
-							    <form:options items="${CL_CATEGORY}" />
-							</form:select>
+							${f:h(todo.todoCategoryName)}
 						</td>
 					<!-- Task Name -->
 					<tr><td>
@@ -71,7 +68,6 @@ function toFileUpload(formName, url, method, model)
 							Priority:
 						</td><td>
 							<form:select path="todoPriority">
-							    <form:option value="${f:h(todo.todoPriorityName)}" />
 							    <form:options items="${CL_PRIORITY}" />
 							</form:select>
 						</td></tr>
