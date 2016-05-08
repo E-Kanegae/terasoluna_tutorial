@@ -132,10 +132,12 @@
 	
 	<div class="container">
 		<div style="float:left;">
-			<input type="submit" value="Download" class="btn btn-warning active" />
+			<form:form  action="${pageContext.request.contextPath}/manage/mail" method="get" >
+				<input type="submit" value="Mail" class="btn btn-warning active" />
+			</form:form>
 		</div>
 		<div style="float:left;margin-left:1%">
-			<input type="submit" value="Mail" class="btn btn-success active" />
+			<input type="submit" value="Download" class="btn btn-success active" />
 		</div>
 	</div>	
 </c:when>

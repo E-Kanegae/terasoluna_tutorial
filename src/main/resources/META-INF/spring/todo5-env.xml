@@ -24,7 +24,24 @@
     <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
         <constructor-arg index="0" ref="realDataSource" />
     </bean>
-
+    
+    <!-- GmailのSMTPサーバ を呼び出す。ここから-->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	    <property name="host" value="smtp.gmail.com"/>
+	    <property name="port" value="587"/>
+	    <property name="username" value="${ユーザ名}"/> 
+	    <property name="password" value="${二段階認証のパスワード}"/> 
+	    <property name="javaMailProperties">
+	        <props>
+	            <prop key="mail.smtp.auth">true</prop>
+	            <!-- Gmailの場合、これが必要 -->
+	            <prop key="mail.smtp.starttls.enable">true</prop>
+	            <!-- Gmailの場合、これが必要 -->
+	        </props>
+	    </property>
+	</bean>
+	<!-- GmailのSMTPサーバ を呼び出す。ここまで-->
+	
     <!--  REMOVE THIS LINE IF YOU USE JPA
     <bean id="transactionManager"
         class="org.springframework.orm.jpa.JpaTransactionManager">
