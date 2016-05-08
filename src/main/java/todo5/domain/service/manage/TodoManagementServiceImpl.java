@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,8 @@ public class TodoManagementServiceImpl implements TodoManagementService {
 	
 	@Inject
 	JavaMailSender mailSender;
+    @Value("${mail.address.to}") 
+    private String mailTo;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -58,7 +61,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
 				 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,
 		                    StandardCharsets.UTF_8.name()); 
 		            helper.setFrom("terasoluna Test<terasoluna_tutrial@terasoluna.com>");
-		            helper.setTo("${Gmailのメールアカウント}"); 
+		            helper.setTo(mailTo); 
 		            helper.setSubject("Test"); 
 		            String text = "Hi "
 		                    + ", welcome to EXAMPLE.COM!\r\n"
