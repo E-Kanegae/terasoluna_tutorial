@@ -10,9 +10,9 @@ public interface TodoRepository {
 	
 	Todo findOne(String todoId);
 	
-	long countTodo();
+	long countTodo(Todo todo);
 	
-	List<Todo> findAll(RowBounds rowBounds);
+	List<Todo> findAll(Todo todo, RowBounds rowBounds);
 	
     void create(Todo todo);
 

@@ -24,7 +24,7 @@
             </tr>
         </table>
         <ul>
-        	<li><a href="${pageContext.request.contextPath}/todo/list">Todo List</a></li>
+        	<li><a href="${pageContext.request.contextPath}/manage/init">Todo Management Top</a></li>
         	<li><input type="button"  value="Todo List(onClick)" onClick="location.href='${pageContext.request.contextPath}/todo/list'"></li>
         	<li>
         		<form:form

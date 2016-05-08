@@ -3,6 +3,14 @@
 <mapper namespace="todo5.domain.repository.todo.TodoRepository">
 	<resultMap id="todoResultMap" type="Todo">
 		<id property="todoId" column="todo_id" />
+		<id property="todoTitle" column="todo_title" />
+		<id property="createdAt" column="created_at" />
+		<id property="firstName" column="firstname" />
+		<id property="lastName" column="lastname" />
+		<id property="todoPriorityName" column="priority" />
+		<id property="todoCategory" column="category_id" />
+		<id property="expiryDate" column="expiry_date" />
+		
 		<result property="todoId" column="todo_id" />
 		<result property="todoTitle" column="todo_title" />
 		<result property="finished" column="finished" />
@@ -15,8 +23,37 @@
 		<result property="todoPriorityName" column="priority" />
 		<result property="fileNm" column="file_nm" />
 		<result property="cmt" column="remarks" />
+		<result property="expiryDate" column="expiry_date" jdbcType="TIMESTAMP" typeHandler="todo5.infra.mybatis.typehandler.TimestampJodaDateTimeTypeHandler"/>
+		
 	</resultMap>
 
+	<sql id="search_criteria">
+  		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			  <if test="todoTitle != null and todoTitle != '' ">
+			    todo_title like #{todoTitle}
+			  </if>
+			  <if test="createdAt != null and createdAt != '' ">
+			    AND created_at = #{createdAt}
+			  </if>
+			  <if test="firstName != null and firstName != '' ">
+			    AND firstname like #{firstName}
+			  </if>
+			  <if test="lastName != null and lastName != '' ">
+			    AND lastname like #{lastName}
+			  </if>
+			  <if test="todoPriorityName != null and todoPriorityName != '' ">
+			    AND priority like #{todoPriorityName}
+			  </if>
+			  <if test="todoCategory != null and todoCategory != '' ">
+			    AND t1.category_id like #{todoCategory}
+			  </if>
+			  <if test="expiryDate != null and expiryDate != '' ">
+			    AND expiry_date like #{expiryDate}
+			  </if>
+		</trim>	
+	</sql>
+
+	
 	<select id="edit" parameterType="Todo">
 	<![CDATA[
 		UPDATE 
@@ -72,8 +109,8 @@
 				INNER JOIN 
 					category t2
 				ON t1.category_id = t2.category_id 
-					
-	]]>
+		]]>
+		<include refid="search_criteria"/>
 	</select>
 
 	<select id="findAll" resultMap="todoResultMap">
@@ -92,8 +129,8 @@
 				INNER JOIN 
 					category t2
 				ON t1.category_id = t2.category_id 
-					
-	]]>
+		]]>
+		<include refid="search_criteria"/>			
 	</select>
 
 	<insert id="create" parameterType="Todo">

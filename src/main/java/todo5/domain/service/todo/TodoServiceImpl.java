@@ -91,14 +91,16 @@ public class TodoServiceImpl implements TodoService {
 	@Transactional(readOnly = true)
 	public Page<Todo> findAll(Pageable pageable) {
 		
-		long total = todoRepository.countTodo();
+		Todo todo = new Todo();
+		
+		long total = todoRepository.countTodo(todo);
 		
         List<Todo> todos;
         
         if (0 < total) {
             RowBounds rowBounds = new RowBounds(pageable.getOffset(),
                 pageable.getPageSize());
-            todos = todoRepository.findAll(rowBounds);
+            todos = todoRepository.findAll(todo, rowBounds);
         } else {
             todos = Collections.emptyList();
         }
