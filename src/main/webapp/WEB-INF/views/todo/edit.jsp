@@ -89,12 +89,25 @@ function toFileUpload(formName, url, method, model)
 			</div>
 		</form:form>
 
+	    <%-- for action --%>
+	    <c:choose>
+	        <c:when test="${empty todoForm.todoId}">
+	            <c:set var="targetAction" value="todo/detail" />
+	            <c:set var="targetModel" value="todoForm" />
+	        </c:when>
+	        <c:otherwise>
+	            <c:set var="targetAction" value="manage/fromEdit" />
+	            <c:set var="targetModel" value="todoManageForm" />
+	        </c:otherwise>
+	    </c:choose>
+	    <%-- /for action --%>
+    
 		<div class="container">
 			<div style="float:left">
 				<form:form name="detailForm" 
-					action="${pageContext.request.contextPath}/todo/detail"
+					action="${pageContext.request.contextPath}/${targetAction}"
 					method="get" 
-					modelAttribute="todoForm">
+					modelAttribute="${targetModel}">
 					<form:hidden path="todoId" value="${f:h(todo.todoId)}" />
 				<div>
 					<input type="submit" value="Back" class="btn btn-success" />

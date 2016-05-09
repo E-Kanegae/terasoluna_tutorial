@@ -32,6 +32,7 @@ import org.terasoluna.gfw.common.message.ResultMessages;
 
 import botdetect.web.Captcha;
 import todo5.app.common.SessionPageObj;
+import todo5.app.manage.TodoManageForm;
 import todo5.app.todo.TodoForm.TodoCreate;
 import todo5.app.todo.TodoForm.TodoDelete;
 import todo5.app.todo.TodoForm.TodoDetail;
@@ -60,6 +61,12 @@ public class TodoController {
     @ModelAttribute
     public TodoForm setUpForm() {
         TodoForm form = new TodoForm();
+        return form;
+    }
+
+    @ModelAttribute
+    public TodoManageForm setUpTodoManageForm() {
+        TodoManageForm form = new TodoManageForm();
         return form;
     }
 

@@ -10,6 +10,7 @@ public class TodoManageForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private String todoId;
     private String todoCategory;
     private String todoTitle;
     private String firstName;
