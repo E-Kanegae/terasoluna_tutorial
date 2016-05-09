@@ -1,3 +1,4 @@
+
 package todo5.domain.service.common;
 
 import javax.inject.Inject;
@@ -13,31 +14,34 @@ import todo5.domain.model.UserAccount;
 
 @Service
 public class LoginUserAccountService implements UserDetailsService {
-	@Inject
-	UserAccountSharedService userAccountSharedService;
-	
-	@Transactional(readOnly=true)
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		try {
-			UserAccount userAccount = userAccountSharedService.findOne(username); 
-			return new LoginUserAccount(userAccount);
-		
-		} catch (ResourceNotFoundException e) {
-			throw new UsernameNotFoundException("user not found", e);
-		}
-	}
-	
-//	@Transactional(readOnly=true)
-//	@Override
-//	public UserDetails loadUserByUseraccount(UserAccount loginAccount) throws UsernameNotFoundException {
-//		try {
-//				UserAccount userAccount = userAccountSharedService.findOne(loginAccount.getUsername(), loginAccount.getPassword()); 
-//				return new LoginUserAccount(userAccount);
-//			
-//			} catch (ResourceNotFoundException e) {
-//				throw new UsernameNotFoundException("user not found", e);
-//			}
-//	}
+    @Inject
+    UserAccountSharedService userAccountSharedService;
+
+    @Transactional(readOnly = true)
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        try {
+            UserAccount userAccount = userAccountSharedService.findOne(username);
+            return new LoginUserAccount(userAccount);
+
+        } catch (ResourceNotFoundException e) {
+            throw new UsernameNotFoundException("user not found", e);
+        }
+    }
+
+    // @Transactional(readOnly=true)
+    // @Override
+    // public UserDetails loadUserByUseraccount(UserAccount loginAccount) throws
+    // UsernameNotFoundException {
+    // try {
+    // UserAccount userAccount =
+    // userAccountSharedService.findOne(loginAccount.getUsername(),
+    // loginAccount.getPassword());
+    // return new LoginUserAccount(userAccount);
+    //
+    // } catch (ResourceNotFoundException e) {
+    // throw new UsernameNotFoundException("user not found", e);
+    // }
+    // }
 
 }
