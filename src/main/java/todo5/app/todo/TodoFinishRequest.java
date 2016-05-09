@@ -1,3 +1,4 @@
+
 package todo5.app.todo;
 
 import java.io.Serializable;
@@ -11,10 +12,10 @@ import lombok.Setter;
 @Getter
 public class TodoFinishRequest implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@NotNull
-	private String todoId;
-	@NotNull
-	private String todoTitle;
+    private static final long serialVersionUID = 1L;
+
+    @NotNull
+    private String todoId;
+    @NotNull
+    private String todoTitle;
 }

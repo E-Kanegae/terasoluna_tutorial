@@ -1,3 +1,4 @@
+
 package todo5.app.todo;
 
 import java.io.Serializable;
@@ -12,9 +13,9 @@ import lombok.Setter;
 @Getter
 public class MultiFileUploadForm implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@Valid
+    private static final long serialVersionUID = 1L;
+
+    @Valid
     private List<FileUploadForm> fileUploadForms;
 
 }

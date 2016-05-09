@@ -1,3 +1,4 @@
+
 package todo5.app.todo;
 
 import java.io.Serializable;
@@ -18,13 +19,13 @@ import todo5.common.validator.annotation.UploadFileRequired;
 @Getter
 public class FileUploadForm implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@UploadFileExtension
-	@UploadFileNotEmpty
-	@UploadFileRequired
+    private static final long serialVersionUID = 1L;
+
+    @UploadFileExtension
+    @UploadFileNotEmpty
+    @UploadFileRequired
     private MultipartFile file;
-    
+
     @NotNull
     private String todoId;
 

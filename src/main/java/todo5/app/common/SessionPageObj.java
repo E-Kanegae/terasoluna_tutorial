@@ -1,3 +1,4 @@
+
 package todo5.app.common;
 
 import java.io.Serializable;
@@ -13,11 +14,11 @@ import org.springframework.context.annotation.ScopedProxyMode;
 @Setter
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class SessionPageObj implements Serializable  {
+public class SessionPageObj implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	private int page;
-	private int size;
+    private static final long serialVersionUID = 1L;
+
+    private int page;
+    private int size;
 
 }

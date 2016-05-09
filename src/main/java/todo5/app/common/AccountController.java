@@ -1,3 +1,4 @@
+
 package todo5.app.common;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,10 +12,10 @@ import todo5.domain.service.common.LoginUserAccount;
 @Controller
 @RequestMapping("accountInfoView")
 public class AccountController {
-	@RequestMapping
+    @RequestMapping
     public String view(
             @AuthenticationPrincipal LoginUserAccount loginUserAccount, Model model) {
-        
+
         UserAccount userAccount = loginUserAccount.getUserAccount();
         model.addAttribute(userAccount);
         return "account/view";
