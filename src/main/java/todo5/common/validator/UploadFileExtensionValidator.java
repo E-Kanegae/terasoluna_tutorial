@@ -54,7 +54,7 @@ public class UploadFileExtensionValidator
 		String[] dots = fileName.split("\\.", -1);
 		String extensionName;
 		
-		if(dots.length == 1){
+		if(dots.length <= 1){
 			return null;
 		}else{
 			extensionName = dots[dots.length-1];
