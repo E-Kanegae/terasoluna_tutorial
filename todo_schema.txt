@@ -1,0 +1,76 @@
+-- DROP TABLE account;
+
+CREATE TABLE account
+(
+  username character varying(128) NOT NULL,
+  password character varying(128),
+  first_name character varying(128),
+  last_name character varying(128),
+  CONSTRAINT pk_tbl_account PRIMARY KEY (username)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE account
+  OWNER TO postgres;
+
+
+-- Table: category
+
+-- DROP TABLE category;
+
+CREATE TABLE category
+(
+  category_id character(3),
+  category_nm character varying(30)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE category
+  OWNER TO postgres;
+
+-- Table: todo
+
+-- DROP TABLE todo;
+
+CREATE TABLE todo
+(
+  todo_id character varying(36) NOT NULL,
+  todo_title character varying(30),
+  finished boolean,
+  created_at timestamp without time zone,
+  firstname character varying(15),
+  lastname character varying(15),
+  fullname character varying(30),
+  person_in_charge character varying(30),
+  priority character varying(1),
+  remarks character varying(256),
+  category_id character(3),
+  expiry_date timestamp without time zone,
+  updateat timestamp without time zone,
+  CONSTRAINT todo_pkey PRIMARY KEY (todo_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE todo
+  OWNER TO postgres;
+
+
+-- DROP TABLE todo_file;
+
+CREATE TABLE todo_file
+(
+  todo_id character varying(36) NOT NULL,
+  file_no integer NOT NULL,
+  file bytea,
+  description character varying(4000),
+  file_nm character varying(256),
+  CONSTRAINT pk_tbl_todo_file PRIMARY KEY (todo_id, file_no)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE todo_file
+  OWNER TO postgres;
