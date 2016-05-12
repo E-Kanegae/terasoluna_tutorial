@@ -17,22 +17,22 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 public class Todo5HttpServletRequestInfo {
 
-    private final HttpServletRequest req = 
+    private static HttpServletRequest req = 
             ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
     
-    public String getScheme(){
+    public static String getScheme(){
         return req.getScheme();
     }
     
-    public String getServerName(){     
+    public static String getServerName(){     
         return ((String)req.getHeaders("HOST").nextElement());
     }
     
-    public String getRequestURL(){
+    public static String getRequestURL(){
         StringBuilder strb = new StringBuilder();
-        strb.append(this.getScheme());
+        strb.append(getScheme());
         strb.append("://");
-        strb.append(this.getServerName());
+        strb.append(getServerName());
         return strb.toString();
     }
 
