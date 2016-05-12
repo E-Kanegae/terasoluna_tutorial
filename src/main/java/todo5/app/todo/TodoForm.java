@@ -6,6 +6,7 @@ import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import todo5.common.validator.annotation.BotDetect;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,7 +45,10 @@ public class TodoForm implements Serializable {
     private String lastName;
     private String todoPriority;
     private String cmt;
+    
+    @BotDetect(groups = { TodoCreate.class})
     private String captchaCodeTextBox;
+    
     private String createdAt;
     private String expiryDate;
 

@@ -9,16 +9,18 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import todo5.common.validator.BotDetectValidator;
+
 
 @Documented
-@Constraint(validatedBy = {BotDetectValidator.class})
+@Constraint(validatedBy = { BotDetectValidator.class})
 @Target({
         ElementType.FIELD
 })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface BotDetect {
     
-    String message() default "{jp.co.todo5.captcha.BotDetect.message}";
+    String message() default "{jp.co.todo5.captcha.BotDetectCaptcha.message}";
 
     Class<?>[] groups() default {};
 

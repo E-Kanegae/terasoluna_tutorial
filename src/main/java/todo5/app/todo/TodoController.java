@@ -30,7 +30,6 @@ import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.message.ResultMessage;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
-import botdetect.web.Captcha;
 import todo5.app.common.SessionPageObj;
 import todo5.app.manage.TodoManageForm;
 import todo5.app.todo.TodoForm.TodoCreate;
@@ -176,13 +175,6 @@ public class TodoController {
             Model model, RedirectAttributes attributes, HttpServletRequest req) {
 
         if (bindingResult.hasErrors()) {
-            return "todo/list";
-        }
-
-        // BotDetect実装
-        Captcha captcha = Captcha.load(req, "basicExampleCaptcha");
-        boolean isHuman = captcha.validate(req, todoForm.getCaptchaCodeTextBox());
-        if (!isHuman) {
             return "todo/list";
         }
 
