@@ -120,6 +120,12 @@
   
 
     <jsp-config>
+    	<!-- 自作 Taglib ここから-->
+    	<taglib>
+    		<taglib-uri>http://localhost:8080/tags/todo5</taglib-uri> 
+	        <taglib-location>/WEB-INF/tlds/todo5.tld</taglib-location>
+    	</taglib>
+    	<!-- 自作 Taglib ここまで-->
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>
             <el-ignored>false</el-ignored>
@@ -128,6 +134,8 @@
             <include-prelude>/WEB-INF/views/common/include.jsp</include-prelude>
         </jsp-property-group>
     </jsp-config>
+    
+
 
     <error-page>
         <error-code>500</error-code>
@@ -143,7 +151,7 @@
         <exception-type>java.lang.Exception</exception-type>
         <location>/WEB-INF/views/common/error/unhandledSystemError.html</location>
     </error-page>
-    
+  	
    <!-- ファイルアップロードのエラーハンドリングはここでは設定していない -->
     
     <session-config>
@@ -155,5 +163,6 @@
         </cookie-config>
         <tracking-mode>COOKIE</tracking-mode>
     </session-config>
+
 
 </web-app>
