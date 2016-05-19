@@ -130,7 +130,8 @@
 					category t2
 				ON t1.category_id = t2.category_id 
 		]]>
-		<include refid="search_criteria"/>			
+		<include refid="search_criteria"/>
+		ORDER BY todo_id	
 	</select>
 
 	<insert id="create" parameterType="Todo">
