@@ -67,7 +67,6 @@ public class TodoRepositoryFindAllTest extends Todo5DataSourceBasedDBTestCase {
      */
     @Before
     public void setUp() throws Exception {
-        
         super.setUp();
     }
 
