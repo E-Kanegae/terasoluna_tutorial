@@ -38,16 +38,17 @@ public abstract class Todo5DataSourceBasedDBTestCase extends DataSourceBasedDBTe
         return new XlsDataSet(getDataFile());
     }
 
-    abstract protected String getFilePath();
-
     protected File getDataFile() throws FileNotFoundException {
         File xlsFile = ResourceUtils.getFile(getFilePath());
         return xlsFile;
     }
 
+    abstract protected String getFilePath();
+    abstract protected boolean getCaseSensitiveTableNm();
+
     @Override
     protected IDatabaseTester newDatabaseTester() {
-        DataSourceDatabaseTester tester = new Todo5DataSourceDatabaseTester(getDataSource());
+        DataSourceDatabaseTester tester = new Todo5DataSourceDatabaseTester(getDataSource(), getCaseSensitiveTableNm());
         return tester;
     }
 

@@ -18,6 +18,13 @@ import org.dbunit.database.IDatabaseConnection;
  */
 public class Todo5DataSourceDatabaseTester extends DataSourceDatabaseTester{
 
+    boolean isCaseSensitive;
+    
+    public Todo5DataSourceDatabaseTester(DataSource dataSource, boolean isCaseSensitive) {
+        this(dataSource);
+        this.isCaseSensitive = isCaseSensitive;
+    }
+    
     public Todo5DataSourceDatabaseTester(DataSource dataSource) {
         super(dataSource);
     }
@@ -28,19 +35,14 @@ public class Todo5DataSourceDatabaseTester extends DataSourceDatabaseTester{
         IDatabaseConnection databaseConnection = super.getConnection();
 
         DatabaseConfig config = databaseConnection.getConfig();
-        config.setFeature(DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES,true);
+        config.setFeature(DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES,getCaseSensitive());
 
         return databaseConnection;
     }
 
-    protected boolean isCaseSensitive = false;
-    
-    protected void setCaseSensitive(boolean isCaseSensitive){
-        this.isCaseSensitive = isCaseSensitive;   
-    }
-    
     protected boolean getCaseSensitive(){
         return this.isCaseSensitive;
     }
+    
     
 }
