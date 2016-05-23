@@ -57,6 +57,8 @@ public class TodoRepositoryFindAllTest extends Todo5DataSourceBasedDBTestCase {
     NamedParameterJdbcTemplate jdbcTemplate;
     
     String dataFileName = "TodoRepositoryTest.xls";
+    
+    //DBMSのCaseSesitive設定に合わせて設定する。（Postgres初期設定がtrueなので今はtrue）
     boolean isCaseSensitiveTableNm = true;
 
     /**
