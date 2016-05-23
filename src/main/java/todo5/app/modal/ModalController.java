@@ -59,7 +59,7 @@ public class ModalController {
         Page<Todo> todos = todoManagementService.search(todo, pageable);
         model.addAttribute("todos", todos);
 
-        return "account/viewchild";
+        return "account/view";
     }
 
 }
