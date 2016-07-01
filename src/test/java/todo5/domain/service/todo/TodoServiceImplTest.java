@@ -98,13 +98,13 @@ public class TodoServiceImplTest {
     /**
      * {@link todo5.domain.service.todo.TodoServiceImpl#findOne(java.lang.String)} のためのテスト・メソッド。
      */
-    @Test(expected = ResourceNotFoundException.class)
-    public final void testFindOneExceptionCase() throws Exception{
-        todo = null;
-        when(todoRepository.findOne("9999999")).thenReturn(todo);
-        todoService.findOne("9999999");
-
-    }
+//    @Test(expected = ResourceNotFoundException.class)
+//    public final void testFindOneExceptionCase() throws Exception{
+//        todo = null;
+//        when(todoRepository.findOne("9999999")).thenReturn(todo);
+//        todoService.findOne("9999999");
+//
+//    }
     /**
      * {@link todo5.domain.service.todo.TodoServiceImpl#findAll(org.springframework.data.domain.Pageable)} のためのテスト・メソッド。
      */

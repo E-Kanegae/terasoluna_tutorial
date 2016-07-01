@@ -10,9 +10,8 @@
 <!-- Ajax用 -->
 
 <title>Todo List</title>
-<script type="text/javascript"
-    src="${pageContext.request.contextPath}/resources/jquery/jquery-1.12.2.min.js">
-</script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/jquery/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/jquery-ui-1.11.4.custom\jquery-ui.js"></script>
 <script type="text/javascript">
 var contextPath = $("meta[name='contextPath']").attr("content");
 
@@ -67,6 +66,7 @@ function finishTodo() {
     return false;
 }
 </script>
+
 <style type="text/css">
 .strike {
 text-decoration: line-through;
@@ -95,6 +95,9 @@ color: #c60f13;
 <link rel="stylesheet"
     href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap-3.3.1-dist/css/bootstrap.css"
     type="text/css" media="screen, projection">
+<link rel="stylesheet"
+    href="${pageContext.request.contextPath}/resources/jquery-ui-1.11.4.custom\jquery-ui.css"
+    type="text/css" media="screen, projection">
 </head>
 
 <body>
@@ -112,7 +115,7 @@ color: #c60f13;
 					Category: 
 				</td><td>
 					<form:select path="todoCategory">
-					    <form:option value="" label="--Select--" />
+					    <form:option value="" label="" />
 					    <form:options items="${CL_CATEGORY}" />
 					</form:select>
 				</td>
@@ -137,8 +140,11 @@ color: #c60f13;
 			<tr><td>		
 					Priority:
 				</td><td>
-					<form:select path="todoPriority">
-					    <form:option value="" label="--Select--" />
+					<c:set var="codelistAll"><spring:message code="label.codelist.all"/></c:set>
+					<form:select path="todoPriority" >
+					    <%-- <form:option value="" label="${codelistAll}" /> --%>
+					    <form:option value="1"><jsp:attribute name="label"><spring:message code="label.codelist.all"/></jsp:attribute></form:option>
+					    <%-- <option value="1" selected ><spring:message code="label.codelist.all"/></option> --%>
 					    <form:options items="${CL_PRIORITY}" />
 					</form:select>
 				</td></tr>

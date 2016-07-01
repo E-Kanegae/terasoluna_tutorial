@@ -1,6 +1,9 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
+encoding//src/main/webapp/WEB-INF/views/account/view.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/account/viewchild.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/dynamicScreen/dynamicScreen01.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/manage/search.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/todo/detail.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/todo/edit.jsp=UTF-8

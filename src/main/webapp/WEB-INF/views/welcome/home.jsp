@@ -22,6 +22,7 @@
         </p>
         <ul>
         	<li><a href="${pageContext.request.contextPath}/accountInfoView">view account</a></li>
+         <li><a href="${pageContext.request.contextPath}/dynamic/init">valification of dynamic</a></li>
         </ul>
     </div>
 </body>

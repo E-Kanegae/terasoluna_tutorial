@@ -206,5 +206,5 @@
 		WHERE
 			todo_id = #{todoId}
 	]]>
-	</select>
+	</select>    
 </mapper>
