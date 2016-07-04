@@ -21,6 +21,21 @@
         <org.codehaus.mojo.build-helper-maven-plugin.version>1.9.1</org.codehaus.mojo.build-helper-maven-plugin.version>
     </properties>
 
+    <distributionManagement>
+  <!--
+      <repository>
+        <id>gaba-nexus</id>
+        <name>gaba-nexus</name>
+        <url>http://10.69.157.110:38080/nexus/content/repositories/releases/</url>
+      </repository>
+   -->
+      <snapshotRepository>
+        <id>gaba-nexus-snapshot</id>
+        <name>gaba-nexus-snapshot</name>
+        <url>${url.snapshot}</url>
+      </snapshotRepository>
+    </distributionManagement>
+  
     <repositories>
         <repository>
             <releases>
@@ -84,6 +99,32 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin> 
+			        <groupId>org.jacoco</groupId> 
+			        <artifactId>jacoco-maven-plugin</artifactId> 
+			        <executions> 
+			          <execution> 
+			            <id>prepare-agent</id> 
+			            <goals> 
+			              <goal>prepare-agent</goal> 
+			            </goals> 
+			             <configuration>
+                                <resources>
+                                    <resource>
+                                        <directory>target/</directory>
+                                    </resource>
+                                </resources>
+                            </configuration>
+			          </execution> 
+			 <!--   <execution>
+							<id>report</id>
+							<phase>prepare-package</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+						</execution>  -->
+			        </executions> 
+			      </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -163,6 +204,25 @@
 	        <groupId>com.sun.mail</groupId>
 	        <artifactId>javax.mail</artifactId>
 	    </dependency>
+	    
+		<dependency>
+	        <groupId>org.freemarker</groupId>
+	        <artifactId>freemarker</artifactId>
+	    </dependency>
+     
+     <!-- gabaのcommon系資材を使う ここから-->
+      <dependency>
+        <groupId>jp.co.gaba</groupId>
+        <artifactId>gaba-common</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>jp.co.gaba</groupId>
+        <artifactId>gaba-web-common</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+     <!-- gabaのcommon系資材を使う ここまで-->
 
         <!-- Unit Test -->
         <dependency>
