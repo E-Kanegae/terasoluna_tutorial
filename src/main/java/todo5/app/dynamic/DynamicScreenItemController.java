@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -31,7 +32,7 @@ public class DynamicScreenItemController {
     DynamicScreenItemService dynamicScreenItemService;
 
     @Inject
-    DynamicScreenItemValidator validator;
+    DynamicScreenItemHelper helper;
 
     @ModelAttribute
     public DynamicScreenItemForm setUpForm() {
@@ -49,27 +50,19 @@ public class DynamicScreenItemController {
     public String init(DynamicScreenItemForm form, Model model,
             DynamicScreenItemValidationInfo validationInfo) {
 
+        //画面表示内容（動的項目含む）の取得
         DynamicScreenItemOutputBean output = dynamicScreenItemService.init();
+        
         model.addAttribute("output", output);
         model.addAttribute("formFieldList", output.getFormFiledList());
 
-        Map<String, Object> screenInfoMap = new HashMap<String, Object>();
+        // 入力チェック情報をValidationInfoに登録する。
         Map<String, List<String>> validationMap = new HashMap<String, List<String>>();
-        // formにattributeする。
         for (int i = 0; i < output.getFormFiledList().size(); i++) {
-            screenInfoMap.put(
-                    output.getFormFiledList().get(i).getFormFieldId(), "");
-            screenInfoMap.put(
-                    output.getFormFiledList().get(i).getFormFieldName(), "");
-
             validationMap.put(
                     output.getFormFiledList().get(i).getFormFieldId(),
                     output.getFormFiledList().get(i).getValidationCheck());
         }
-
-        form.setDynamicItemMap(screenInfoMap);
-
-        // 入力チェック情報をValidationInfoに登録する。
         validationInfo.setItemValidationInfo(validationMap);
 
         return "dynamicScreen/dynamicScreen01";
@@ -82,17 +75,34 @@ public class DynamicScreenItemController {
      * @throws なし
      */
     @RequestMapping(value = "sendValue")
-    public String send(DynamicScreenItemForm form, Model model,
+    public String send(DynamicScreenItemForm form,  BindingResult result, Model model,
             DynamicScreenItemValidationInfo validationInfo) {
 
         // 入力チェック処理を呼び出す。
-        validator.validate(form.getDynamicItemMap(),
-                validationInfo.getItemValidationInfo());
+        new DynamicScreenItemValidator().validate(helper.setUpValidateInput(
+                form.getDynamicItemMap(),
+                validationInfo.getItemValidationInfo()), result);
+        
+        if(result.hasErrors()){
+            DynamicScreenItemOutputBean output = dynamicScreenItemService.init();
+            model.addAttribute("output", output);
+            model.addAttribute("formFieldList", output.getFormFiledList());
+            return "dynamicScreen/dynamicScreen01";
+        }
 
+        //TODO 仮に初期表示処理をそのまま書いているだけ。要・実装。
         DynamicScreenItemOutputBean output = dynamicScreenItemService.init();
         model.addAttribute("output", output);
         model.addAttribute("formFieldList", output.getFormFiledList());
-
+        // 入力チェック情報をValidationInfoに登録する。
+        Map<String, List<String>> validationMap = new HashMap<String, List<String>>();
+        for (int i = 0; i < output.getFormFiledList().size(); i++) {
+            validationMap.put(
+                    output.getFormFiledList().get(i).getFormFieldId(),
+                    output.getFormFiledList().get(i).getValidationCheck());
+        }
+        validationInfo.setItemValidationInfo(validationMap);
+        
         return "dynamicScreen/dynamicScreen01";
     }
 }

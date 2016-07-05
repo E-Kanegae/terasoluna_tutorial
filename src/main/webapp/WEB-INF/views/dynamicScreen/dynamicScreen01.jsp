@@ -43,9 +43,11 @@
           <c:otherwise>
           <tr>
             <td>${f:h(eachFormFieldList.formFieldName)}</td>
-            <td><input type=${eachFormFieldList.inputType} 
-            name="dynamicItemMap[${eachFormFieldList.formFieldId}]" value="${eachFormFieldList.initialValue}"></td>
+            <%--<td><input type=${eachFormFieldList.inputType} 
+            name="dynamicItemMap[${eachFormFieldList.formFieldId}]" value="${eachFormFieldList.initialValue}"></td>--%>
+            <td><form:input path="dynamicItemMap[${eachFormFieldList.formFieldId}]" value="${eachFormFieldList.initialValue}"/></td>
           </tr>
+          <tr><td></td><td><form:errors path="dynamicItemMap[${eachFormFieldList.formFieldId}]" /></td></tr>
           </c:otherwise>
        </c:choose>
        </c:forEach>

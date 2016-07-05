@@ -18,6 +18,6 @@ public class DynamicScreenItemOutputBean implements Serializable{
     String formName;
     String ScheduleTypeId;
     String approveSp;
-    List<FormFiledBean> formFiledList; 
+    List<FormFieldBean> formFiledList; 
     
 }

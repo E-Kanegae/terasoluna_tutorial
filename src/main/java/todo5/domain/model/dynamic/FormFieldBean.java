@@ -13,7 +13,7 @@ import lombok.Data;
  * @author E-Kanegae
  */
 @Data
-public class FormFiledBean {
+public class FormFieldBean {
     
     /*
      * フィールドID

@@ -1,66 +1,65 @@
 package todo5.app.dynamic;
 
 import java.util.List;
-import java.util.Map;
 
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.stereotype.Component;
 
 /**
- * [このクラスの説明を書きましょう]
+ * 動的項目へのValidatorクラス
  * @author E-Kanegae
  */
 @Component
-public class DynamicScreenItemValidator {
+public class DynamicScreenItemValidator implements Validator{
 
-    public static final String VALIDATION_TYPE_NOTNULL = "NotNull";
-    public static final String VALIDATION_TYPE_DATE_FORMAT = "DateFormat"; 
+    private static final String NETED_PATH_PREFIX = "dynamicItemMap[";
+    private static final String NETED_PATH_POSTFIX = "]";
+    
     /**
-     * @param dynamicItemMap
-     * @param validationInfoMap 入力項目名、入力項目への入力チェックリスト
+     * チェック対象クラス判別メソッド。本クラスでは何も実施しない。
+     * @see org.springframework.validation.Validator#supports(java.lang.Class)
      */
-    public void validate(Map<String, Object> dynamicItemMap,
-            Map<String, List<String>> validationInfoMap) {
-
-        // 各項目について入力チェックを行う。
-        for (Map.Entry<String, List<String>> entry : validationInfoMap.entrySet()) {
-            // 入力チェックがある項目の場合のみ処理を継続する。
-            if (!entry.getValue().equals(null) || entry.getValue().size() > 0) {
-                // NotNullチェックがある場合、一番最初にチェックする。
-                if (entry.getValue().contains(VALIDATION_TYPE_NOTNULL)) {
-                    if (!isNotNull(dynamicItemMap.get(entry.getKey()))) {
-                        //TODO エラー時の挙動を考える。
-                    }
-                }
-                // それ以外のチェックを実施する。
-                for(String validationCheckType :entry.getValue()){
-                    if (!handleValidationCheck(dynamicItemMap.get(dynamicItemMap.get(entry.getKey())), validationCheckType)){
-                        //TODO エラー時の挙動を考える。
-                    }                    
-                }
-                
-                
-            }
-
-        }
+    @Override
+    public boolean supports(Class<?> clazz) {
+        // do Nothing
+        return true;
     }
 
     /**
-     * 引数の値に応じて、第一引数への入力チェックの種類を変更する。
+     * 動的入力チェック
+     * @param target　List<DynamicScreenItemDataBindingInputBean>　
+     * @param errors　
+     * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
+     */
+    @Override
+    public void validate(Object target, Errors errors) { 
+        for(DynamicScreenItemDataBindingInputBean input :(List<DynamicScreenItemDataBindingInputBean>) target){       
+            if(!this.handleValidationCheck(input.getFieldValue(), input.getValidationTypeName())){
+                errors.rejectValue(NETED_PATH_PREFIX + input.getFieldName() + NETED_PATH_POSTFIX, 
+                        "", //TODO 要・検討
+                        input.getErrorCode());
+            }
+        }   
+    }
+
+    /**
+     * 第二引数の値に応じて、第一引数への入力チェックの判別し、実行する。
      * 
-     * @param obj バリデーションチェック対象
+     * @param obj バリデーションチェック対象オブジェクト
      * @param validationCheckType　入力チェック種別
      * @return boolean
      */
     private boolean handleValidationCheck(Object obj, String validationCheckType){
-        switch (validationCheckType){
-        //日付フォーマットチェック
-        case VALIDATION_TYPE_DATE_FORMAT:
-            return isDateFormat(obj);
         //必須チェック
-        case VALIDATION_TYPE_NOTNULL:
+        if(validationCheckType.equals(DynamicScreenItemValidationCheckEnum.NotNullCheck)){
             return isNotNull(obj);
-
+        //文字列長チェック
+        }else if(validationCheckType.equals(DynamicScreenItemValidationCheckEnum.StringLengthCheck)){
+            return isCorrectLength(obj); //TODO 実装
         }
+        //TODO 他、入力チェックある分だけ実装
+
         return false;
     }
     
@@ -70,18 +69,20 @@ public class DynamicScreenItemValidator {
      * @return boolean
      */
     private boolean isNotNull(Object obj) {
-        return (!obj.equals("") || !obj.equals(null));
+        return !(obj.equals("") || obj.equals(null));
     }
     
 
     /**
-     * DateFormatチェック
+     * 文字列長チェック
      * @param obj　オブジェクト
      * @return boolean
      */
-    private boolean isDateFormat(Object obj){
+    private boolean isCorrectLength(Object obj){
+        if(!isNotNull(obj)){
+            return true;
+        }
         //TODO 未実装
         return true;
     }
-
 }
