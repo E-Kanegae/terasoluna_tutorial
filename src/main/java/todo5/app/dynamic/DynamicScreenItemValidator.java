@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,8 +14,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class DynamicScreenItemValidator implements Validator{
 
-    private static final String NETED_PATH_PREFIX = "dynamicItemMap[";
-    private static final String NETED_PATH_POSTFIX = "]";
+    @Value("${dynamicScreenItem.bean.property.name}")
+    private static String VALIDATED_DYNAMIC_MEMBER_OBJECT;
+    
+    private static final String NETED_FIELD_PREFIX = "[";
+    private static final String NETED_FIELD_POSTFIX = "]";
     
     /**
      * チェック対象クラス判別メソッド。本クラスでは何も実施しない。
@@ -36,11 +40,10 @@ public class DynamicScreenItemValidator implements Validator{
     public void validate(Object target, Errors errors) { 
         for(DynamicScreenItemDataBindingInputBean input :(List<DynamicScreenItemDataBindingInputBean>) target){       
             if(!this.handleValidationCheck(input.getFieldValue(), input.getValidationTypeName())){
-                errors.rejectValue(NETED_PATH_PREFIX + input.getFieldName() + NETED_PATH_POSTFIX, 
-                        "", //TODO 要・検討
+                errors.rejectValue(VALIDATED_DYNAMIC_MEMBER_OBJECT + NETED_FIELD_PREFIX + input.getFieldName() + NETED_FIELD_POSTFIX, 
                         input.getErrorCode());
             }
-        }   
+        }
     }
 
     /**

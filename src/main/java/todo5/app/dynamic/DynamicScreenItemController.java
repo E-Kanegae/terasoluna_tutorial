@@ -23,7 +23,7 @@ import todo5.domain.service.dynamic.DynamicScreenItemService;
  * [このクラスの説明を書きましょう]
  * @author E-Kanegae
  */
-@SessionAttributes(types = DynamicScreenItemValidationInfo.class)
+@SessionAttributes(types = DynamicScreenItemValidationInfo.class) //TODO FormFieldをつめる。
 @Controller
 @RequestMapping("dynamic")
 public class DynamicScreenItemController {

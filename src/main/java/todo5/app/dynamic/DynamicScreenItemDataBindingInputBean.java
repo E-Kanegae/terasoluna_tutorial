@@ -29,7 +29,7 @@ public class DynamicScreenItemDataBindingInputBean {
     public String getErrorCode(){
         //必須チェック
         if (this.validationTypeName.equals(DynamicScreenItemValidationCheckEnum.NotNullCheck)){
-            return "";
+            return "dynamicScreenItem.e.message.NotNull";
         //文字列長チェック
         }else if (this.validationTypeName.equals(DynamicScreenItemValidationCheckEnum.StringLengthCheck)){
             return "";

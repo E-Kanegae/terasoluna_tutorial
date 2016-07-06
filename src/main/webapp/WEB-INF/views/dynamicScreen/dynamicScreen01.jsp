@@ -10,6 +10,15 @@
 </head>
 
 <body>
+<%-- 設定値の読み込み
+<c:set var="typeTextArea" ><jsp:attribute name="value"><spring:message code="dynamicScreenItem.type.textarea"/></jsp:attribute></c:set>
+<c:set var="typeTextBox" ><jsp:attribute name="value"><spring:message code="dynamicScreenItem.type.textbox"/></jsp:attribute></c:set>
+<c:set var="typeRadioButton" ><jsp:attribute name="value"><spring:message code="dynamicScreenItem.type.radioButton"/></jsp:attribute></c:set>
+<c:set var="typeCheckBox" ><jsp:attribute name="value"><spring:message code="dynamicScreenItem.type.checkbox"/></jsp:attribute></c:set>
+<c:set var="typeDate" ><jsp:attribute name="value"><spring:message code="dynamicScreenItem.type.dateFormat"/></jsp:attribute></c:set>
+<c:set var="typeDropDownList" ><jsp:attribute name="value"><spring:message code="dynamicScreenItem.type.dynamicScreenItem.type.dropDownList"/></jsp:attribute></c:set>
+--%>
+
  <h1>Dynamic Screen01</h1>
  <form:form action="${pageContext.request.contextPath}/dynamic/sendValue" method="post" modelAttribute="dynamicScreenItemForm">
    <div class="container">
